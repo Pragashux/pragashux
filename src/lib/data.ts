@@ -3,12 +3,15 @@ export const siteConfig = {
   title: "Senior UX Designer | UX Strategist | Product Designer",
   tagline:
     "Designing human-centered digital experiences that balance business goals and user needs.",
+  location: "Chennai, Tamil Nadu, India",
+  company: "Perficient",
   email: "hello@pragash.design",
   url: "https://pragashux.github.io",
   linkedin: "https://www.linkedin.com/in/pragash-santhakumar-44074452/",
-  behance: "https://www.behance.net/",
+  behance: "https://www.behance.net/pragashinnovates",
   dribbble: "https://dribbble.com/",
   github: "https://github.com/Pragashux",
+  image: "/pragash-profile.jpg",
 };
 
 export const navLinks = [
@@ -31,6 +34,8 @@ export const skillCategories = [
       "Prototyping",
       "Usability Testing",
       "Information Architecture",
+      "Interaction Design",
+      "Accessibility",
     ],
   },
   {
@@ -38,6 +43,8 @@ export const skillCategories = [
     accent: "secondary",
     skills: [
       "Figma",
+      "Adobe XD",
+      "Sketch",
       "Design Systems",
       "Visual Design",
       "Responsive Design",
@@ -55,23 +62,114 @@ export const skillCategories = [
   },
 ] as const;
 
+export const experiences = [
+  {
+    role: "Senior Technical Consultant UX",
+    company: "Perficient",
+    location: "Chennai, Tamil Nadu, India",
+    period: "Mar 2025 – Present",
+    current: true,
+    summary:
+      "Leading UX strategy and product design for enterprise digital experiences, partnering with cross-functional teams to deliver research-backed, accessible solutions.",
+    responsibilities: [
+      "UX Strategy",
+      "Product Design",
+      "User Experience Improvements",
+      "Healthcare Platform Modernization",
+      "Design System Contributions",
+      "Cross-functional Collaboration",
+    ],
+    highlights: [
+      "Successfully delivered 95+ user stories.",
+      "Recognized with the Extra Mile Award at Perficient.",
+      "Led multiple UX initiatives that improved workflows and usability.",
+    ],
+  },
+  {
+    role: "UX Design Specialist",
+    company: "Movate",
+    location: "Chennai, Tamil Nadu, India",
+    period: "Jun 2024 – Dec 2024",
+    current: false,
+    summary:
+      "Researched, designed, and implemented end-to-end user experiences for digital products and tools across enterprise engagements.",
+    responsibilities: [
+      "User Research",
+      "Experience Design",
+      "Prototyping",
+      "Usability Validation",
+    ],
+    highlights: [
+      "Owned research-to-delivery UX workflows.",
+      "Collaborated closely with product and engineering partners.",
+    ],
+  },
+  {
+    role: "User Experience Designer",
+    company: "Mobius Knowledge Services",
+    location: "Chennai, Tamil Nadu, India",
+    period: "Jan 2022 – May 2024",
+    current: false,
+    summary:
+      "Focused on user journeys through research, wireframes, prototypes, and cross-team collaboration to ship clearer digital experiences.",
+    responsibilities: [
+      "User Research",
+      "Wireframing & Prototyping",
+      "Interaction Design",
+      "Stakeholder Collaboration",
+    ],
+    highlights: [
+      "Spent 2+ years deepening end-to-end UX craft.",
+      "Supported product teams with usable, research-informed designs.",
+    ],
+  },
+  {
+    role: "UX Specialist / UX Designer",
+    company: "SrinSoft Technologies",
+    location: "Chennai, Tamil Nadu, India",
+    period: "Jul 2019 – Jul 2021",
+    current: false,
+    summary:
+      "Crafted visually strong, usable interfaces and translated concepts into polished digital experiences using modern design tools and patterns.",
+    responsibilities: [
+      "UI Design",
+      "UX Design",
+      "Visual Design",
+      "Prototype Delivery",
+    ],
+    highlights: [
+      "Grew from UX Designer into UX Specialist responsibilities.",
+      "Delivered pixel-refined interfaces that elevated engagement.",
+    ],
+  },
+  {
+    role: "UX Consultant",
+    company: "snailtechs digital",
+    location: "Puducherry, India",
+    period: "Jul 2013 – Jun 2019",
+    current: false,
+    summary:
+      "Freelance UX consulting across diverse clients with a focus on research, wireframing, prototyping, and translating business goals into intuitive experiences.",
+    responsibilities: [
+      "Freelance UX Consulting",
+      "User Research",
+      "Wireframing",
+      "Client Collaboration",
+    ],
+    highlights: [
+      "Built a strong foundation across nearly 6 years of consulting work.",
+      "Delivered thoughtful UX for a wide range of digital products.",
+    ],
+  },
+];
+
+/** @deprecated use experiences[0] */
 export const experience = {
-  role: "Senior Technical Consultant",
-  company: "Enterprise Healthcare & Digital Platforms",
-  period: "Present",
-  responsibilities: [
-    "UX Strategy",
-    "Product Design",
-    "User Experience Improvements",
-    "Healthcare Platform Modernization",
-    "Design System Contributions",
-    "Cross-functional Collaboration",
-  ],
-  highlights: [
-    "Successfully delivered 95+ user stories.",
-    "Led multiple UX initiatives.",
-    "Improved user workflows and usability.",
-  ],
+  role: experiences[0].role,
+  company: experiences[0].company,
+  period: experiences[0].period,
+  responsibilities: experiences[0].responsibilities,
+  highlights: experiences[0].highlights,
 };
 
 export const caseStudies = [
@@ -173,8 +271,8 @@ export const testimonials = [
 export const achievements = [
   { value: 95, suffix: "+", label: "Stories Delivered" },
   { value: 10, suffix: "+", label: "Products Improved" },
-  { value: 5, suffix: "+", label: "Years UX Experience" },
-  { value: 0, suffix: "", label: "Multiple Enterprise Projects", display: "Multiple" },
+  { value: 12, suffix: "+", label: "Years UX Experience" },
+  { value: 0, suffix: "", label: "Extra Mile Award — Perficient", display: "Award" },
 ];
 
 export const blogPosts = [

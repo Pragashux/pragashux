@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { FadeIn } from "@/components/animations/fade-in";
 import { SectionHeading } from "@/components/section-heading";
+import { siteConfig } from "@/lib/data";
 
 const pillars = [
   "Design Thinking",
@@ -21,53 +23,72 @@ export function AboutSection() {
           <SectionHeading
             eyebrow="About"
             title="A journey shaped by people, systems, and outcomes"
-            description="I design experiences that help complex products feel clear, trustworthy, and useful."
+            description="Passionate about crafting seamless, user-centered digital experiences that turn complex problems into intuitive design."
             align="left"
           />
         </FadeIn>
 
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
-          <FadeIn delay={0.1}>
-            <div className="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              <p>
-                My path into UX began with a simple question: how do we make
-                digital products feel more human? That curiosity grew into a
-                career focused on healthcare platforms, enterprise applications,
-                and digital transformation programs where clarity and trust
-                matter most.
-              </p>
-              <p>
-                Across these domains, I&apos;ve learned that great UX is rarely
-                just a beautiful interface. It is the result of listening
-                closely, framing the right problems, and aligning product,
-                design, and engineering around shared outcomes.
-              </p>
-              <p>
-                Today, I partner with cross-functional teams to modernize
-                experiences—translating research into strategy, strategy into
-                systems, and systems into interactions people can rely on.
-              </p>
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+          <FadeIn delay={0.08}>
+            <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-[1.75rem] border border-border/60 bg-muted/30 shadow-lg">
+              <Image
+                src={siteConfig.image}
+                alt={`${siteConfig.name} portrait`}
+                fill
+                sizes="(max-width: 768px) 90vw, 360px"
+                className="object-cover object-top"
+              />
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.2}>
-            <div className="rounded-2xl border border-border/60 bg-background/50 p-6 backdrop-blur-md sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-foreground">
-                Focus areas
-              </p>
-              <ul className="mt-5 space-y-3">
-                {pillars.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center gap-3 text-sm text-muted-foreground sm:text-base"
-                  >
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </FadeIn>
+          <div className="space-y-8">
+            <FadeIn delay={0.12}>
+              <div className="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p>
+                  I am a passionate UX Designer dedicated to crafting seamless,
+                  user-centered digital experiences. With a strong foundation in
+                  user research, wireframing, prototyping, and usability
+                  testing, I turn complex problems into intuitive designs that
+                  enhance user satisfaction.
+                </p>
+                <p>
+                  Over 12+ years, my path has spanned freelance consulting,
+                  product design, and enterprise platforms — including work
+                  across healthcare, edtech, ecommerce, logistics, and digital
+                  transformation. Today, as Senior Technical Consultant UX at{" "}
+                  <span className="font-medium text-foreground">Perficient</span>
+                  {" "}in Chennai, I partner with cross-functional teams to ship
+                  experiences that balance business goals and user needs.
+                </p>
+                <p>
+                  I prioritize research and data-driven decisions, own the
+                  end-to-end design process from ideation to implementation, and
+                  collaborate closely with developers, product managers, and
+                  stakeholders. I am also a Google UX Design Professional
+                  Certificate graduate.
+                </p>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.18}>
+              <div className="rounded-2xl border border-border/60 bg-background/50 p-6 backdrop-blur-md sm:p-7">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-foreground">
+                  Focus areas
+                </p>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {pillars.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 text-sm text-muted-foreground sm:text-base"
+                    >
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </div>
     </section>

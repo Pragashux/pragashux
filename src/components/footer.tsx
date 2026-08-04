@@ -24,8 +24,9 @@ export function Footer() {
             {siteConfig.name}
           </p>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Senior UX Designer crafting human-centered digital products across
-            healthcare, enterprise platforms, and digital transformation.
+            Senior Technical Consultant UX at Perficient · Chennai. Crafting
+            human-centered digital products across healthcare, enterprise
+            platforms, and digital transformation.
           </p>
           <div className="mt-6 flex items-center gap-3">
             {socials.map(({ href, label, icon: Icon }) => (

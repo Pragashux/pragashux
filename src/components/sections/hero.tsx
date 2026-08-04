@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDownRight, Download } from "lucide-react";
+import Image from "next/image";
+import { ArrowDownRight, Download, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Parallax } from "@/components/animations/parallax";
 import { siteConfig } from "@/lib/data";
@@ -32,9 +33,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-5 text-sm font-medium uppercase tracking-[0.2em] text-secondary"
+            className="mb-5 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-secondary"
           >
-            Portfolio
+            <MapPin className="h-3.5 w-3.5" />
+            {siteConfig.location}
           </motion.p>
 
           <motion.h1
@@ -53,6 +55,18 @@ export function HeroSection() {
             className="mt-4 max-w-xl text-lg font-medium text-primary sm:text-xl"
           >
             {siteConfig.title}
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-3 text-sm text-muted-foreground"
+          >
+            Senior Technical Consultant UX at{" "}
+            <span className="font-medium text-foreground">
+              {siteConfig.company}
+            </span>
           </motion.p>
 
           <motion.p
@@ -94,28 +108,21 @@ export function HeroSection() {
           >
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/20 blur-2xl" />
             <div className="relative overflow-hidden rounded-[1.75rem] border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-gradient-to-br from-slate-200 via-slate-100 to-slate-300 dark:from-slate-800 dark:via-slate-700 dark:to-slate-900">
-                <motion.div
-                  animate={{
-                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                  }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 opacity-80"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(120deg, rgba(108,99,255,0.35), rgba(0,194,168,0.25), rgba(245,158,11,0.2), rgba(108,99,255,0.35))",
-                    backgroundSize: "200% 200%",
-                  }}
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
+                <Image
+                  src={siteConfig.image}
+                  alt={`${siteConfig.name} — Senior UX Designer`}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 90vw, 420px"
+                  className="object-cover object-top"
                 />
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                  <div className="mb-4 flex h-28 w-28 items-center justify-center rounded-full border border-white/30 bg-white/20 font-display text-4xl font-semibold text-white backdrop-blur-md shadow-lg">
-                    PS
-                  </div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/35 to-transparent p-6 pt-24">
                   <p className="font-display text-xl font-semibold text-white">
-                    Pragash Santhakumar
+                    {siteConfig.name}
                   </p>
-                  <p className="mt-2 text-sm text-white/80">
-                    Senior UX Designer
+                  <p className="mt-1 text-sm text-white/80">
+                    Senior Technical Consultant UX · {siteConfig.company}
                   </p>
                 </div>
               </div>

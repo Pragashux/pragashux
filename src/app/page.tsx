@@ -16,9 +16,20 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: siteConfig.name,
-  jobTitle: "Senior UX Designer",
+  jobTitle: "Senior Technical Consultant UX",
+  worksFor: {
+    "@type": "Organization",
+    name: siteConfig.company,
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Chennai",
+    addressRegion: "Tamil Nadu",
+    addressCountry: "IN",
+  },
   description: siteConfig.tagline,
   url: siteConfig.url,
+  image: `${siteConfig.url}${siteConfig.image}`,
   sameAs: [
     siteConfig.linkedin,
     siteConfig.behance,
