@@ -11,6 +11,7 @@ export const siteConfig = {
   behance: "https://www.behance.net/pragashinnovates",
   dribbble: "https://dribbble.com/",
   github: "https://github.com/Pragashux",
+  designfolio: "https://pragash.designfolio.me/",
   image: "/pragash-profile.jpg",
 };
 
@@ -174,43 +175,70 @@ export const experience = {
 
 export const caseStudies = [
   {
-    id: "healthcare-portal",
-    title: "Healthcare Member Portal Experience",
-    tags: ["Healthcare", "Accessibility", "Research"],
+    id: "pimworks",
+    title: "PIMworks Case Study",
+    tags: ["Ecommerce", "PIM", "Enterprise", "Figma"],
+    image: "/projects/pimworks.png",
+    url: "https://www.behance.net/gallery/212744261/PIMworks-Case-study",
     challenge:
-      "Members struggled to navigate benefits, claims, and care resources across a fragmented portal experience with inconsistent patterns and limited accessibility support.",
+      "Product teams managing large catalogs needed a clearer, more scalable PIM experience—complex product data, attributes, and workflows made everyday tasks slow and error-prone.",
     process:
-      "Conducted stakeholder interviews, UX audits, and task-based usability sessions to map member journeys and uncover friction in high-intent flows.",
+      "Combined UX research, heuristic evaluation, information architecture mapping, and Figma prototyping to uncover friction across ecommerce product management journeys.",
     solution:
-      "Redesigned core member journeys with clearer information architecture, accessible UI patterns, and progressive disclosure that simplified complex healthcare tasks.",
+      "Designed a streamlined PIMworks experience with clearer hierarchy, improved task flows, and interface patterns that made product data easier to browse, edit, and govern.",
     impact:
-      "Improved member engagement and task completion confidence while establishing a more inclusive foundation for future portal enhancements.",
+      "Created a more intuitive PIM workflow foundation that reduced cognitive load and supported faster, more confident product operations.",
   },
   {
-    id: "hra-survey",
-    title: "HRA Survey Experience Transformation",
-    tags: ["Healthcare", "Forms", "Usability"],
+    id: "vbc-lms",
+    title: "VBC LMS Portal",
+    tags: ["EdTech", "LMS", "Web", "Portal"],
+    image: "/projects/vbc-lms.png",
+    url: "https://www.behance.net/gallery/211696365/VBC-LMS-Portal",
     challenge:
-      "A lengthy health risk assessment questionnaire created cognitive overload, abandonment, and confusion around question intent and progress.",
+      "Learners and administrators needed a clearer learning portal experience—content discovery, progress tracking, and key LMS actions felt fragmented across the platform.",
     process:
-      "Analyzed drop-off patterns, identified pain points through heuristic evaluation, and co-created flow improvements with clinical and product partners.",
+      "Mapped learner and admin journeys, prioritized high-intent flows, and iterated UI structures for both the LMS portal and supporting website experience.",
     solution:
-      "Streamlined the questionnaire with clearer grouping, better progress signaling, and reduced complexity without compromising clinical completeness.",
+      "Delivered a cohesive LMS portal design with improved navigation, clearer content hierarchy, and a companion website experience that reinforced the product story.",
     impact:
-      "Created a calmer, more guided survey experience that reduced perceived effort and supported higher-quality completion.",
+      "Helped create a more guided learning experience that made courses and progress easier to understand for students and operators alike.",
   },
   {
-    id: "enterprise-dx",
-    title: "Enterprise Digital Transformation",
-    tags: ["Enterprise", "Dashboard", "IA"],
+    id: "mojo-redesign",
+    title: "MOJO UI Before & After Redesign",
+    tags: ["UI Redesign", "Mobile", "Visual Design"],
+    image: "/projects/mojo.png",
+    url: "https://www.behance.net/gallery/211697189/MOJO-UI-Before-and-After-Redeisgn",
     challenge:
-      "Cross-functional teams relied on fragmented dashboards and workflows that slowed decision-making and obscured priority actions.",
+      "The existing MOJO interface felt dated and inconsistent, making core interactions harder to scan and less engaging for users.",
     process:
-      "Facilitated workshops, audited information architecture, and mapped operational workflows to identify opportunities for consolidation and clarity.",
+      "Audited the current UI, identified visual and interaction gaps, and redesigned key screens with a cleaner hierarchy and modern component language.",
     solution:
-      "Delivered a redesigned dashboard system with prioritized workflows, clearer hierarchy, and shared patterns that scaled across enterprise teams.",
+      "Delivered a before-and-after UI redesign that refreshed layout, typography, spacing, and interaction clarity while preserving product intent.",
     impact:
-      "Improved cross-team collaboration and workflow efficiency while aligning product, design, and engineering around a shared experience vision.",
+      "Elevated perceived quality and usability through a sharper visual system and more approachable product screens.",
+  },
+];
+
+export const featuredProjects = [
+  {
+    title: "Fitness App",
+    category: "Mobile UX",
+    image: "/projects/fitness.png",
+    url: "https://www.behance.net/gallery/212297707/Fitness-App",
+  },
+  {
+    title: "ANT Design System",
+    category: "Design Systems",
+    image: "/projects/ant-ds.jpg",
+    url: "https://www.behance.net/gallery/211698015/ANT-Design-System",
+  },
+  {
+    title: "Heuristic Approach for PIMworks",
+    category: "UX Research",
+    image: "/projects/pimworks.png",
+    url: "https://www.behance.net/gallery/214165875/Heuristic-Approach-for-Pimworks",
   },
 ];
 
