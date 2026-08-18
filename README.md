@@ -1,35 +1,71 @@
-# Pragash Santhakumar — Portfolio
+# Vibrant LMS
 
-Premium personal portfolio for **Pragash Santhakumar**, Senior UX Designer.
+Enterprise-grade Learning Management System for **iOS** and **Android**, built with Flutter.
 
-## Stack
+## Highlights
 
-- Next.js 15 (App Router)
-- TypeScript
-- Tailwind CSS v4
-- Framer Motion
-- Shadcn-style UI primitives
-- Lucide icons + custom social icons
-- next-themes (dark / light mode)
+- **Student Portal** — dashboard, catalog, learning player, assessments, certificates, notifications, profile & analytics
+- **Admin Portal** — KPIs, course management, student directory, engagement analytics
+- **Clean Architecture** — features → domain / data / presentation, repository pattern, `get_it` DI
+- **State** — `flutter_bloc` + secure session storage
+- **Navigation** — `go_router` with role-based redirects
+- **Design** — Material 3, design tokens, light/dark themes, responsive phone & tablet shells
+- **Firebase-ready** — Auth, Firestore, Storage, FCM facades (demo mode runs offline with mocks)
+- **REST-ready** — `Dio` `ApiClient` with bearer token interceptor
+
+## Demo credentials
+
+| Role    | Email                 | Password     |
+|---------|-----------------------|--------------|
+| Student | `student@vibrant.lms` | `Vibrant@123` |
+| Admin   | `admin@vibrant.lms`   | `Vibrant@123` |
+
+OTP demo code: any 6 digits (e.g. `123456`).
+
+## Project structure
+
+```
+lib/
+├── core/           # constants, DI, errors, network, usecases
+├── shared/         # entities, reusable widgets
+├── features/       # auth, dashboard, courses, lessons, assessments,
+│                   # certificates, analytics, notifications, profile, admin
+├── services/       # secure storage, Firebase, FCM
+├── routes/         # GoRouter + role guards
+└── themes/         # tokens, typography, Material 3 themes
+```
 
 ## Getting started
 
 ```bash
-npm install
-npm run dev
+flutter pub get
+flutter run
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+### Enable Firebase (production)
+
+1. Create a Firebase project and enable Auth, Firestore, Storage, FCM.
+2. Run `flutterfire configure`.
+3. Set `demoMode: false` in `main.dart` → `configureDependencies`.
+4. Replace `Mock*Repository` registrations in `lib/core/di/injection.dart` with Firebase implementations.
+
+### Platforms
+
+- Android (`minSdk` per Flutter defaults)
+- iOS 13+
+
+## Design system
+
+- Primary teal `#0F766E`, coral accent `#EA580C`
+- Display: **Outfit** · Body: **Plus Jakarta Sans** (`google_fonts`)
+- Tokens: `lib/themes/app_tokens.dart`
+- Themes: `lib/themes/app_theme.dart`
 
 ## Scripts
 
-- `npm run dev` — development server (Turbopack)
-- `npm run build` — production build
-- `npm run start` — start production server
-- `npm run lint` — ESLint
-
-## Sections
-
-Hero, About, Skills, Experience, Case Studies, Design Process, Testimonials, Achievements, Insights, Contact, Footer.
-
-Replace `/public/resume.pdf` with the actual resume file when ready.
+```bash
+flutter analyze
+flutter test
+flutter build apk
+flutter build ios
+```

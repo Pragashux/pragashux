@@ -1,0 +1,5 @@
+package com.vibrant.vibrant_lms
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
