@@ -12,7 +12,7 @@ Guidance for AI agents and developers working in this repository.
 
 - **Stack:** Flutter 3.x (stable), Dart 3.x, Android SDK 36
 - **Primary targets:** Android and iOS mobile apps
-- **Cloud preview:** Android emulator (API 34) + `flutter build apk`
+- **Cloud preview:** Android emulator (API 30) + `flutter build apk`
 - **Demo mode:** `configureDependencies(demoMode: true)` in `main.dart`
 
 ### Available VM tooling
@@ -21,7 +21,7 @@ Guidance for AI agents and developers working in this repository.
 |------|-------------------|
 | Flutter SDK | `/opt/flutter/bin` (stable channel) |
 | Android SDK | `/opt/android-sdk` (platform 36, build-tools 36.0.0) |
-| Android emulator | AVD `vibrant_lms_api34` (Pixel 7, API 34) |
+| Android emulator | AVD `vibrant_lms_api30` (Pixel 5, API 30) |
 | Java (OpenJDK) | 21.x |
 | Chrome | Pre-installed (optional web preview) |
 
@@ -34,7 +34,7 @@ Guidance for AI agents and developers working in this repository.
 | Android emulator | For `flutter run` on device | `.cursor/scripts/cloud-agent-start.sh` |
 | Flutter app on emulator | After emulator boots | `flutter run -d android` |
 
-The environment `start` script launches the Android emulator. First boot can take several minutes; if the emulator is not online yet, use `flutter build apk` to validate Android builds.
+The environment `start` script launches the Android emulator. First boot can take up to 5 minutes with software acceleration; if the emulator is not online yet, use `flutter build apk` to validate Android builds.
 
 ### Install
 
@@ -61,12 +61,17 @@ flutter build apk --release
 export PATH="/opt/flutter/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:$PATH"
 export ANDROID_HOME=/opt/android-sdk
 
-# Start emulator (if not already running)
+# Start emulator (if not already running; first boot ~5 min with software acceleration)
 .cursor/scripts/cloud-agent-start.sh
 
-# Deploy to emulator once `adb devices` shows "device"
+# Build and install the x86_64 split APK (required for emulator deploy)
+.cursor/scripts/install-on-emulator.sh
+
+# Or deploy directly with Flutter once the emulator is fully booted
 flutter run -d android
 ```
+
+**Note:** The emulator uses software rendering (`-accel off`) in Cloud Agents. Use `flutter build apk --split-per-abi` and install `app-x86_64-debug.apk` for reliable emulator deployment. iOS builds require macOS/Xcode and are not available in Cloud Agents.
 
 ### Demo credentials
 

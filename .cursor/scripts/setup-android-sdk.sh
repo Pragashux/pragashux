@@ -30,14 +30,14 @@ sdkmanager --install \
   "emulator" \
   "platforms;android-36" \
   "build-tools;36.0.0" \
-  "system-images;android-34;google_apis;x86_64"
+  "system-images;android-30;google_apis;x86_64"
 
-AVD_NAME="${ANDROID_AVD_NAME:-vibrant_lms_api34}"
+AVD_NAME="${ANDROID_AVD_NAME:-vibrant_lms_api30}"
 if ! avdmanager list avd | grep -q "Name: $AVD_NAME"; then
   echo "no" | avdmanager create avd \
     --name "$AVD_NAME" \
-    --package "system-images;android-34;google_apis;x86_64" \
-    --device "pixel_7" \
+    --package "system-images;android-30;google_apis;x86_64" \
+    --device "pixel_5" \
     --force
 fi
 
