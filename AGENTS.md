@@ -42,6 +42,8 @@ The environment `start` script launches the Android emulator. First boot can tak
 .cursor/scripts/cloud-agent-install.sh
 ```
 
+The install script bootstraps the Android SDK (first run only) and runs `flutter pub get`.
+
 ### Lint / test / build (mobile)
 
 ```bash
