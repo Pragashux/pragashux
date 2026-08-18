@@ -4,57 +4,72 @@ Guidance for AI agents and developers working in this repository.
 
 ## Project overview
 
-**pragashux** is a greenfield portfolio repository. As of the initial setup, the only committed file is `README.md`. There is no application code, dependency manifest, or service configuration yet.
+**Vibrant LMS** is an enterprise-grade Learning Management System for iOS, Android, and web preview, built with Flutter. The app runs in **demo mode** by default with mock repositories and offline data — no Firebase credentials are required for local development.
 
 ## Cursor Cloud specific instructions
 
 ### Repository state
 
-- **Branch:** `main`
-- **Contents:** `README.md` only (plus this file after setup)
-- **No install step required** until a package manager manifest (e.g. `package.json`, `requirements.txt`) is added.
+- **Stack:** Flutter 3.x (stable), Dart 3.x
+- **Primary target:** Mobile (iOS/Android); web is used for Cloud Agent preview
+- **Demo mode:** `configureDependencies(demoMode: true)` in `main.dart`
 
 ### Available VM tooling
 
-The cloud development VM includes:
+The Cloud Agent environment includes:
 
-| Tool    | Version (approx.) |
-|---------|-------------------|
-| Node.js | 22.x              |
-| npm     | 10.x              |
-| pnpm    | 10.x              |
-| yarn    | 1.22.x            |
-| Python  | 3.12.x            |
-| Git     | 2.43.x            |
-
-Docker is not installed in the default cloud VM.
+| Tool | Location / version |
+|------|-------------------|
+| Flutter SDK | `/opt/flutter/bin` (stable channel) |
+| Chrome | Pre-installed for web preview and computer-use testing |
+| Java (OpenJDK) | 21.x (Android toolchain not configured in cloud) |
 
 ### Services
 
 | Service | Required? | How to run |
 |---------|-----------|------------|
-| *(none)* | — | No application services exist yet. |
+| Flutter web dev server | For UI preview | `flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080` |
 
-When a portfolio stack is added (e.g. Next.js, Vite, Astro), document the dev server command here and add the appropriate dependency install to the VM update script.
+The environment `start` script launches the web dev server automatically on port **8080**.
+
+### Install
+
+```bash
+.cursor/scripts/cloud-agent-install.sh
+# or: flutter pub get
+```
 
 ### Lint / test / build
 
-No lint, test, or build commands are configured. Once tooling is added, prefer the scripts defined in the project manifest (e.g. `package.json` scripts) and document them in this section.
-
-### Local preview (static / placeholder)
-
-Until a framework is scaffolded, you can preview the repo root as static files:
-
 ```bash
-python3 -m http.server 8000 --bind 127.0.0.1
+export PATH="/opt/flutter/bin:$PATH"
+flutter analyze
+flutter test
+flutter build web
 ```
 
-Then open `http://127.0.0.1:8000/` (or curl it) to verify the workspace is being served.
+### Demo credentials
 
-### Adding a real application
+| Role | Email | Password |
+|------|-------|----------|
+| Student | `student@vibrant.lms` | `Vibrant@123` |
+| Admin | `admin@vibrant.lms` | `Vibrant@123` |
 
-When portfolio code is introduced:
+OTP demo code: any 6 digits (e.g. `123456`).
 
-1. Add the dependency manifest and lockfile.
-2. Update the VM update script (via Cursor environment settings) with the install command (e.g. `pnpm install`).
-3. Expand this file with dev-server startup, env vars, and lint/test commands.
+### Local preview (web)
+
+```bash
+export PATH="/opt/flutter/bin:$PATH"
+flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080
+```
+
+Open `http://127.0.0.1:8080/` in Chrome to interact with the app.
+
+### Firebase (production only)
+
+Firebase is optional. Demo mode skips Firebase initialization. To enable production Firebase:
+
+1. Run `flutterfire configure`
+2. Set `demoMode: false` in `main.dart`
+3. Replace mock repository registrations in `lib/core/di/injection.dart`
