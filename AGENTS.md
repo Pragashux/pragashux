@@ -4,48 +4,68 @@ Guidance for AI agents and developers working in this repository.
 
 ## Project overview
 
-**Vibrant LMS** is an enterprise-grade Learning Management System for iOS, Android, and web preview, built with Flutter. The app runs in **demo mode** by default with mock repositories and offline data — no Firebase credentials are required for local development.
+**Vibrant LMS** is an enterprise-grade Learning Management System for **iOS** and **Android**, built with Flutter. The app runs in **demo mode** by default with mock repositories and offline data — no Firebase credentials are required for local development.
 
 ## Cursor Cloud specific instructions
 
 ### Repository state
 
-- **Stack:** Flutter 3.x (stable), Dart 3.x
-- **Primary target:** Mobile (iOS/Android); web is used for Cloud Agent preview
+- **Stack:** Flutter 3.x (stable), Dart 3.x, Android SDK 36
+- **Primary targets:** Android and iOS mobile apps
+- **Cloud preview:** Android emulator (API 34) + `flutter build apk`
 - **Demo mode:** `configureDependencies(demoMode: true)` in `main.dart`
 
 ### Available VM tooling
 
-The Cloud Agent environment includes:
-
 | Tool | Location / version |
 |------|-------------------|
 | Flutter SDK | `/opt/flutter/bin` (stable channel) |
-| Chrome | Pre-installed for web preview and computer-use testing |
-| Java (OpenJDK) | 21.x (Android toolchain not configured in cloud) |
+| Android SDK | `/opt/android-sdk` (platform 36, build-tools 36.0.0) |
+| Android emulator | AVD `vibrant_lms_api34` (Pixel 7, API 34) |
+| Java (OpenJDK) | 21.x |
+| Chrome | Pre-installed (optional web preview) |
+
+**iOS builds are not supported in Cloud Agents** (requires macOS/Xcode). Use Android for cloud-based mobile development and testing.
 
 ### Services
 
 | Service | Required? | How to run |
 |---------|-----------|------------|
-| Flutter web dev server | For UI preview | `flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080` |
+| Android emulator | For `flutter run` on device | `.cursor/scripts/cloud-agent-start.sh` |
+| Flutter app on emulator | After emulator boots | `flutter run -d android` |
 
-The environment `start` script launches the web dev server automatically on port **8080**.
+The environment `start` script launches the Android emulator. First boot can take several minutes; if the emulator is not online yet, use `flutter build apk` to validate Android builds.
 
 ### Install
 
 ```bash
 .cursor/scripts/cloud-agent-install.sh
-# or: flutter pub get
 ```
 
-### Lint / test / build
+### Lint / test / build (mobile)
 
 ```bash
 export PATH="/opt/flutter/bin:$PATH"
+export ANDROID_HOME=/opt/android-sdk
+export ANDROID_SDK_ROOT=/opt/android-sdk
+
 flutter analyze
 flutter test
-flutter build web
+flutter build apk --debug
+flutter build apk --release
+```
+
+### Run on Android emulator
+
+```bash
+export PATH="/opt/flutter/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:$PATH"
+export ANDROID_HOME=/opt/android-sdk
+
+# Start emulator (if not already running)
+.cursor/scripts/cloud-agent-start.sh
+
+# Deploy to emulator once `adb devices` shows "device"
+flutter run -d android
 ```
 
 ### Demo credentials
@@ -57,14 +77,13 @@ flutter build web
 
 OTP demo code: any 6 digits (e.g. `123456`).
 
-### Local preview (web)
+### Optional web preview
+
+Web is supported but secondary to mobile targets:
 
 ```bash
-export PATH="/opt/flutter/bin:$PATH"
 flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080
 ```
-
-Open `http://127.0.0.1:8080/` in Chrome to interact with the app.
 
 ### Firebase (production only)
 
