@@ -4,57 +4,98 @@ Guidance for AI agents and developers working in this repository.
 
 ## Project overview
 
-**pragashux** is a greenfield portfolio repository. As of the initial setup, the only committed file is `README.md`. There is no application code, dependency manifest, or service configuration yet.
+**Vibrant LMS** is an enterprise-grade Learning Management System for **iOS** and **Android**, built with Flutter. The app runs in **demo mode** by default with mock repositories and offline data — no Firebase credentials are required for local development.
 
 ## Cursor Cloud specific instructions
 
 ### Repository state
 
-- **Branch:** `main`
-- **Contents:** `README.md` only (plus this file after setup)
-- **No install step required** until a package manager manifest (e.g. `package.json`, `requirements.txt`) is added.
+- **Stack:** Flutter 3.x (stable), Dart 3.x, Android SDK 36
+- **Primary targets:** Android and iOS mobile apps
+- **Cloud preview:** Android emulator (API 30) + `flutter build apk`
+- **Demo mode:** `configureDependencies(demoMode: true)` in `main.dart`
 
 ### Available VM tooling
 
-The cloud development VM includes:
+| Tool | Location / version |
+|------|-------------------|
+| Flutter SDK | `/opt/flutter/bin` (stable channel) |
+| Android SDK | `/opt/android-sdk` (platform 36, build-tools 36.0.0) |
+| Android emulator | AVD `vibrant_lms_api30` (Pixel 5, API 30) |
+| Java (OpenJDK) | 21.x |
+| Chrome | Pre-installed (optional web preview) |
 
-| Tool    | Version (approx.) |
-|---------|-------------------|
-| Node.js | 22.x              |
-| npm     | 10.x              |
-| pnpm    | 10.x              |
-| yarn    | 1.22.x            |
-| Python  | 3.12.x            |
-| Git     | 2.43.x            |
-
-Docker is not installed in the default cloud VM.
+**iOS builds are not supported in Cloud Agents** (requires macOS/Xcode). Use Android for cloud-based mobile development and testing.
 
 ### Services
 
 | Service | Required? | How to run |
 |---------|-----------|------------|
-| *(none)* | — | No application services exist yet. |
+| Android emulator | For `flutter run` on device | `.cursor/scripts/cloud-agent-start.sh` |
+| Flutter app on emulator | After emulator boots | `flutter run -d android` |
 
-When a portfolio stack is added (e.g. Next.js, Vite, Astro), document the dev server command here and add the appropriate dependency install to the VM update script.
+The environment `start` script launches the Android emulator. First boot can take up to 5 minutes with software acceleration; if the emulator is not online yet, use `flutter build apk` to validate Android builds.
 
-### Lint / test / build
-
-No lint, test, or build commands are configured. Once tooling is added, prefer the scripts defined in the project manifest (e.g. `package.json` scripts) and document them in this section.
-
-### Local preview (static / placeholder)
-
-Until a framework is scaffolded, you can preview the repo root as static files:
+### Install
 
 ```bash
-python3 -m http.server 8000 --bind 127.0.0.1
+.cursor/scripts/cloud-agent-install.sh
 ```
 
-Then open `http://127.0.0.1:8000/` (or curl it) to verify the workspace is being served.
+The install script bootstraps the Android SDK (first run only) and runs `flutter pub get`.
 
-### Adding a real application
+### Lint / test / build (mobile)
 
-When portfolio code is introduced:
+```bash
+export PATH="/opt/flutter/bin:$PATH"
+export ANDROID_HOME=/opt/android-sdk
+export ANDROID_SDK_ROOT=/opt/android-sdk
 
-1. Add the dependency manifest and lockfile.
-2. Update the VM update script (via Cursor environment settings) with the install command (e.g. `pnpm install`).
-3. Expand this file with dev-server startup, env vars, and lint/test commands.
+flutter analyze
+flutter test
+flutter build apk --debug
+flutter build apk --release
+```
+
+### Run on Android emulator
+
+```bash
+export PATH="/opt/flutter/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/emulator:$PATH"
+export ANDROID_HOME=/opt/android-sdk
+
+# Start emulator (if not already running; first boot ~5 min with software acceleration)
+.cursor/scripts/cloud-agent-start.sh
+
+# Build and install the x86_64 split APK (required for emulator deploy)
+.cursor/scripts/install-on-emulator.sh
+
+# Or deploy directly with Flutter once the emulator is fully booted
+flutter run -d android
+```
+
+**Note:** The emulator uses software rendering (`-accel off`) in Cloud Agents. Use `flutter build apk --split-per-abi` and install `app-x86_64-debug.apk` for reliable emulator deployment. iOS builds require macOS/Xcode and are not available in Cloud Agents.
+
+### Demo credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| Student | `student@vibrant.lms` | `Vibrant@123` |
+| Admin | `admin@vibrant.lms` | `Vibrant@123` |
+
+OTP demo code: any 6 digits (e.g. `123456`).
+
+### Optional web preview
+
+Web is supported but secondary to mobile targets:
+
+```bash
+flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080
+```
+
+### Firebase (production only)
+
+Firebase is optional. Demo mode skips Firebase initialization. To enable production Firebase:
+
+1. Run `flutterfire configure`
+2. Set `demoMode: false` in `main.dart`
+3. Replace mock repository registrations in `lib/core/di/injection.dart`
