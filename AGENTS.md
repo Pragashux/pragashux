@@ -4,28 +4,25 @@ Guidance for AI agents and developers working in this repository.
 
 ## Project overview
 
-**pragashux** is a greenfield portfolio repository. As of the initial setup, the only committed file is `README.md`. There is no application code, dependency manifest, or service configuration yet.
+**pragashux** is a React + TypeScript portfolio landing page for Pragash (presented as Jack, a 3D creator). It uses Vite, Tailwind CSS, Framer Motion, and Lucide React.
 
 ## Cursor Cloud specific instructions
 
 ### Repository state
 
 - **Branch:** `main`
-- **Contents:** `README.md` only (plus this file after setup)
-- **No install step required** until a package manager manifest (e.g. `package.json`, `requirements.txt`) is added.
+- **Stack:** Vite + React 18 + TypeScript + Tailwind CSS 3
 
 ### Available VM tooling
 
-The cloud development VM includes:
-
-| Tool    | Version (approx.) |
+| Tool | Version (approx.) |
 |---------|-------------------|
-| Node.js | 22.x              |
-| npm     | 10.x              |
-| pnpm    | 10.x              |
-| yarn    | 1.22.x            |
-| Python  | 3.12.x            |
-| Git     | 2.43.x            |
+| Node.js | 22.x |
+| npm | 10.x |
+| pnpm | 10.x |
+| yarn | 1.22.x |
+| Python | 3.12.x |
+| Git | 2.43.x |
 
 Docker is not installed in the default cloud VM.
 
@@ -33,28 +30,24 @@ Docker is not installed in the default cloud VM.
 
 | Service | Required? | How to run |
 |---------|-----------|------------|
-| *(none)* | — | No application services exist yet. |
+| Vite dev server | For local preview | `npm run dev` → `http://127.0.0.1:5173` |
+| Vite preview | Production build preview | `npm run preview` → `http://127.0.0.1:4173` |
 
-When a portfolio stack is added (e.g. Next.js, Vite, Astro), document the dev server command here and add the appropriate dependency install to the VM update script.
+### Install
+
+```bash
+npm install
+```
 
 ### Lint / test / build
 
-No lint, test, or build commands are configured. Once tooling is added, prefer the scripts defined in the project manifest (e.g. `package.json` scripts) and document them in this section.
-
-### Local preview (static / placeholder)
-
-Until a framework is scaffolded, you can preview the repo root as static files:
-
 ```bash
-python3 -m http.server 8000 --bind 127.0.0.1
+npm run build
+npm run preview
 ```
 
-Then open `http://127.0.0.1:8000/` (or curl it) to verify the workspace is being served.
+No dedicated lint or unit-test scripts are configured yet.
 
-### Adding a real application
+### Adding dependencies
 
-When portfolio code is introduced:
-
-1. Add the dependency manifest and lockfile.
-2. Update the VM update script (via Cursor environment settings) with the install command (e.g. `pnpm install`).
-3. Expand this file with dev-server startup, env vars, and lint/test commands.
+After changing `package.json`, keep `package-lock.json` committed. Update this file if the dev-server command or ports change.
