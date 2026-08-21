@@ -1,3 +1,20 @@
+# pragashux
+
+This repository includes the **Snailtechs Academy** website (`web/`) and the **Vibrant LMS** Flutter app (repository root).
+
+## Snailtechs Academy website
+
+```bash
+cd web
+npm install
+npm run dev      # http://127.0.0.1:5173
+npm run build
+```
+
+See `web/README.md` for content editing (courses, fees, mentors, batches).
+
+---
+
 # Vibrant LMS
 
 Enterprise-grade Learning Management System for **iOS** and **Android**, built with Flutter.
