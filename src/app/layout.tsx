@@ -21,6 +21,7 @@ const serif = Instrument_Serif({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pragashux.github.io"),
+  icons: { icon: "/favicon.svg" },
   title: {
     default: site.seoTitle,
     template: `%s — ${site.name}`,
