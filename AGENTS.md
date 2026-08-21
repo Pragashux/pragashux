@@ -4,28 +4,29 @@ Guidance for AI agents and developers working in this repository.
 
 ## Project overview
 
-**pragashux** is a greenfield portfolio repository. As of the initial setup, the only committed file is `README.md`. There is no application code, dependency manifest, or service configuration yet.
+**pragashux** contains:
+
+1. **Vibrant LMS** — Flutter student/admin LMS at the repository root (`lib/`, `android/`, `ios/`).
+2. **Snailtechs Academy website** — React + TypeScript + Tailwind marketing site in `web/`.
 
 ## Cursor Cloud specific instructions
 
 ### Repository state
 
-- **Branch:** `main`
-- **Contents:** `README.md` only (plus this file after setup)
-- **No install step required** until a package manager manifest (e.g. `package.json`, `requirements.txt`) is added.
+- Default branch: `main`
+- Website app lives in `web/`
+- Flutter app remains at the repo root
 
 ### Available VM tooling
 
-The cloud development VM includes:
-
-| Tool    | Version (approx.) |
-|---------|-------------------|
-| Node.js | 22.x              |
-| npm     | 10.x              |
-| pnpm    | 10.x              |
-| yarn    | 1.22.x            |
-| Python  | 3.12.x            |
-| Git     | 2.43.x            |
+| Tool | Version (approx.) |
+|------|-------------------|
+| Node.js | 22.x |
+| npm | 10.x |
+| pnpm | 10.x |
+| yarn | 1.22.x |
+| Python | 3.12.x |
+| Git | 2.43.x |
 
 Docker is not installed in the default cloud VM.
 
@@ -33,28 +34,40 @@ Docker is not installed in the default cloud VM.
 
 | Service | Required? | How to run |
 |---------|-----------|------------|
-| *(none)* | — | No application services exist yet. |
-
-When a portfolio stack is added (e.g. Next.js, Vite, Astro), document the dev server command here and add the appropriate dependency install to the VM update script.
+| Academy website (Vite) | For web preview | `cd web && npm install && npm run dev` → http://127.0.0.1:5173 |
+| Flutter LMS | Optional | `flutter pub get && flutter run` |
 
 ### Lint / test / build
 
-No lint, test, or build commands are configured. Once tooling is added, prefer the scripts defined in the project manifest (e.g. `package.json` scripts) and document them in this section.
-
-### Local preview (static / placeholder)
-
-Until a framework is scaffolded, you can preview the repo root as static files:
+**Website (`web/`)**
 
 ```bash
-python3 -m http.server 8000 --bind 127.0.0.1
+cd web
+npm install
+npm run lint
+npm run build
+npm run preview   # http://127.0.0.1:4173
 ```
 
-Then open `http://127.0.0.1:8000/` (or curl it) to verify the workspace is being served.
+**Flutter LMS (root)**
 
-### Adding a real application
+```bash
+flutter analyze
+flutter test
+```
 
-When portfolio code is introduced:
+### Local preview
 
-1. Add the dependency manifest and lockfile.
-2. Update the VM update script (via Cursor environment settings) with the install command (e.g. `pnpm install`).
-3. Expand this file with dev-server startup, env vars, and lint/test commands.
+Academy website:
+
+```bash
+cd web
+npm install
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+### Content rules for Snailtechs Academy
+
+- Edit structured data in `web/src/data/` rather than hardcoding copy in components.
+- Fees live in `web/src/data/pricing.ts`. Keep values `null` until the academy confirms numbers (UI shows `₹XX,XXX`).
+- Do not invent placement percentages, salary stats, hiring partners, awards, or unverified testimonials.
