@@ -10,7 +10,7 @@ export function DesignProcess() {
       <div className="mt-12 hidden gap-4 lg:grid lg:grid-cols-8">
         {processSteps.map((step, index) => (
           <Reveal key={step.number} delay={index * 70} className="h-full">
-            <article className="sticky top-28 flex h-64 flex-col justify-between rounded-[28px] bg-cream p-5 shadow-sm">
+            <article className="flex h-64 flex-col justify-between rounded-[28px] bg-cream p-5 shadow-sm">
               <p className="text-xs font-semibold text-accent">{step.number}</p>
               <h3 className="font-display text-2xl leading-tight">{step.title}</h3>
             </article>
