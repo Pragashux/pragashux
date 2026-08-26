@@ -1,0 +1,13 @@
+{
+  "name": "A11y Lens",
+  "id": "a11y-lens-wcag-22",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/index.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["https://www.w3.org"],
+    "reasoning": "Learn More links open official WCAG 2.2 documentation on w3.org."
+  }
+}

@@ -37,9 +37,36 @@ Docker is not installed in the default cloud VM.
 
 When a portfolio stack is added (e.g. Next.js, Vite, Astro), document the dev server command here and add the appropriate dependency install to the VM update script.
 
+### A11y Lens (Figma plugin)
+
+The WCAG 2.2 checker lives in `a11y-lens/`.
+
+```bash
+cd a11y-lens
+npm install
+npm test
+npm run build
+npm run preview   # UI at http://127.0.0.1:5173/ (sample data, no Figma)
+```
+
+Import in Figma Desktop via **Plugins → Development → Import plugin from manifest…** and choose `a11y-lens/manifest.json`.
+
 ### Lint / test / build
 
-No lint, test, or build commands are configured. Once tooling is added, prefer the scripts defined in the project manifest (e.g. `package.json` scripts) and document them in this section.
+Flutter (repo root):
+
+```bash
+flutter analyze
+flutter test
+```
+
+Figma plugin (`a11y-lens/`):
+
+```bash
+npm run typecheck
+npm test
+npm run build
+```
 
 ### Local preview (static / placeholder)
 
