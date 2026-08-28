@@ -11,7 +11,7 @@ Distinguish **ready for submission** from **approved by Google Play**. This list
 - [x] Secrets removed from Android source (no LLM/JWT/payment secrets)
 - [ ] Production API hosted and `API_BASE_URL` pointed at it
 - [x] HTTPS enabled in release
-- [x] Permissions reviewed (INTERNET, POST_NOTIFICATIONS only)
+- [x] Permissions reviewed (declared: INTERNET, POST_NOTIFICATIONS; ACCESS_NETWORK_STATE merged from connectivity)
 - [x] Notification permission reviewed (runtime still needed on 13+)
 - [x] Account deletion reviewed
 - [x] Subscription billing reviewed (abstraction + fail closed until Play SKUs)
