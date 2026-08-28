@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibrant_lms/core/config/app_config.dart';
 import 'package:vibrant_lms/core/network/api_client.dart';
 import 'package:vibrant_lms/features/ai/domain/ai_repository.dart';
+import 'package:vibrant_lms/features/auth/data/repositories/remote_auth_repository.dart';
 import 'package:vibrant_lms/features/auth/domain/repositories/repositories.dart';
 import 'package:vibrant_lms/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:vibrant_lms/features/subscription/domain/billing_service.dart';
 import 'package:vibrant_lms/features/subscription/domain/subscription_repository.dart';
 import 'package:vibrant_lms/services/firebase_service.dart';
 import 'package:vibrant_lms/services/secure_storage_service.dart';
@@ -12,7 +16,12 @@ import 'package:vibrant_lms/themes/theme_mode_cubit.dart';
 
 final sl = GetIt.instance;
 
-Future<void> configureDependencies({bool demoMode = true}) async {
+Future<void> configureDependencies({bool? demoMode}) async {
+  final useDemo = demoMode ?? AppConfig.demoMode;
+  if (sl.isRegistered<AuthRepository>()) {
+    return;
+  }
+
   final prefs = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferences>(prefs);
   sl.registerLazySingleton(() => ThemeCubit(prefs));
@@ -27,35 +36,61 @@ Future<void> configureDependencies({bool demoMode = true}) async {
     () => AuthTokenStoreImpl(sl()),
   );
 
-  sl.registerLazySingleton(() => FirebaseService(demoMode: demoMode));
+  sl.registerLazySingleton(() => FirebaseService(demoMode: useDemo));
   sl.registerLazySingleton(
-    () => NotificationService(demoMode: demoMode),
+    () => NotificationService(demoMode: useDemo),
   );
-  sl.registerLazySingleton(() => ApiClient(tokenStore: sl()));
+  sl.registerLazySingleton(
+    () => ApiClient(tokenStore: sl(), baseUrl: AppConfig.apiBaseUrl),
+  );
 
-  sl.registerLazySingleton<AuthRepository>(() => MockAuthRepository(sl()));
-  sl.registerLazySingleton<CourseRepository>(() => MockCourseRepository());
-  sl.registerLazySingleton<AssessmentRepository>(
-    () => MockAssessmentRepository(),
-  );
-  sl.registerLazySingleton<CertificateRepository>(
-    () => MockCertificateRepository(),
-  );
-  sl.registerLazySingleton<NotificationRepository>(
-    () => MockNotificationRepository(),
-  );
-  sl.registerLazySingleton<AdminRepository>(() => MockAdminRepository());
-
+  if (useDemo) {
+    sl.registerLazySingleton<AuthRepository>(() => MockAuthRepository(sl()));
+    sl.registerLazySingleton<CourseRepository>(() => MockCourseRepository());
+    sl.registerLazySingleton<AssessmentRepository>(
+      () => MockAssessmentRepository(),
+    );
+    sl.registerLazySingleton<CertificateRepository>(
+      () => MockCertificateRepository(),
+    );
+    sl.registerLazySingleton<NotificationRepository>(
+      () => MockNotificationRepository(),
+    );
+    sl.registerLazySingleton<AdminRepository>(() => MockAdminRepository());
     sl.registerLazySingleton<AiRepository>(() => MockAiRepository());
+    sl.registerLazySingleton<BillingService>(() => MockBillingService());
     sl.registerLazySingleton<SubscriptionRepository>(
       () => MockSubscriptionRepository(),
     );
-    sl.registerLazySingleton<AssignmentRepository>(
-      () => MockAssignmentRepository(),
+  } else {
+    sl.registerLazySingleton<AuthRepository>(
+      () => RemoteAuthRepository(sl(), sl()),
     );
+    sl.registerLazySingleton<CourseRepository>(() => MockCourseRepository());
+    sl.registerLazySingleton<AssessmentRepository>(
+      () => MockAssessmentRepository(),
+    );
+    sl.registerLazySingleton<CertificateRepository>(
+      () => MockCertificateRepository(),
+    );
+    sl.registerLazySingleton<NotificationRepository>(
+      () => MockNotificationRepository(),
+    );
+    sl.registerLazySingleton<AdminRepository>(() => MockAdminRepository());
+    sl.registerLazySingleton<AiRepository>(() => MockAiRepository());
+    sl.registerLazySingleton<BillingService>(() => PlayBillingService());
+    sl.registerLazySingleton<SubscriptionRepository>(
+      () => BillingBackedSubscriptionRepository(sl()),
+    );
+  }
 
-    sl.registerFactory(() => AuthBloc(sl()));
+  sl.registerLazySingleton<AssignmentRepository>(
+    () => MockAssignmentRepository(),
+  );
+
+  sl.registerFactory(() => AuthBloc(sl()));
 
   await sl<FirebaseService>().initialize();
   await sl<NotificationService>().initialize();
+  assert(!kReleaseMode || !useDemo, 'Release builds must not use demo/mock auth.');
 }

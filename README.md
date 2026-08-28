@@ -4,12 +4,16 @@ AI-first Learning Management System. The Android client is Flutter (Material 3) 
 
 > Student subscribes → AI understands the student → AI teaches the journey → AI generates materials → AI evaluates → AI adapts → AI helps admins run the platform.
 
-## Demo credentials
+## Local demo (debug / backend seed only)
+
+These accounts exist in the seeded FastAPI database and in **debug** Flutter builds. They are not used by the Play release binary.
 
 | Role    | Email                     | Password     |
 |---------|---------------------------|--------------|
 | Student | `student@ailearnos.app`   | `LearnOS@123` |
 | Admin   | `admin@ailearnos.app`     | `LearnOS@123` |
+
+Play submission docs live in `docs/play/`. A generated `.aab` is **ready for submission** after you host APIs, a privacy URL, and Play Billing — that is not Google Play approval.
 
 ## Architecture
 
@@ -28,8 +32,11 @@ export PATH="/opt/flutter/bin:$PATH"
 flutter pub get
 flutter test
 flutter analyze
-flutter run
+flutter run --dart-define=DEMO_MODE=true --dart-define=API_BASE_URL=http://10.0.2.2:8000/v1
+flutter build appbundle --release --dart-define=API_BASE_URL=https://api.ailearnos.app/v1
 ```
+
+Release signing: `android/SIGNING.md`. Do not commit `android/keystore.properties` or `*.jks`.
 
 ## Backend
 

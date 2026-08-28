@@ -32,13 +32,21 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
   }
 
   Future<void> _change(String id) async {
-    await sl<SubscriptionRepository>().changePlan(id);
-    setState(() => _future = _load());
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Plan updated. Payment provider is mocked until keys are set.')),
-      );
-    }
+    final result = await sl<SubscriptionRepository>().changePlan(id);
+    if (!mounted) return;
+    result.fold(
+      (f) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(f.message))),
+      (_) {
+        setState(() => _future = _load());
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Digital subscriptions on Android are completed through Google Play Billing.',
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -49,7 +57,19 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
       body: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const LoadingView();
+          if (snapshot.hasError) {
+            return EmptyState(
+              icon: Icons.wifi_off_rounded,
+              title: 'Unable to load subscription',
+              message:
+                  'Unable to connect. Please check your internet connection and try again.',
+              action: VButton(
+                label: 'Retry',
+                onPressed: () => setState(() => _future = _load()),
+              ),
+            );
+          }
+          if (!snapshot.hasData) return const LoadingView(message: 'Loading subscription…');
           final data = snapshot.data!;
           return ListView(
             padding: const EdgeInsets.all(AppSpacing.md),
@@ -60,7 +80,8 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ),
               const SizedBox(height: 4),
               Text(
-                'Renewal and billing go through PaymentProvider. No keys are stored in the app.',
+                'Digital subscriptions on Android are billed through Google Play. '
+                'The app does not store payment secrets.',
                 style: theme.textTheme.bodySmall,
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -121,7 +142,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
               ),
               TextButton(
                 onPressed: () => context.push('/settings'),
-                child: const Text('Payment history (mock)'),
+                child: const Text('Manage in Google Play'),
               ),
             ],
           );

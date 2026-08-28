@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:vibrant_lms/core/errors/failures.dart';
+import 'package:vibrant_lms/features/subscription/domain/billing_service.dart';
 import 'package:vibrant_lms/shared/models/entities.dart';
 
 abstract class SubscriptionRepository {
@@ -79,6 +80,29 @@ class MockSubscriptionRepository implements SubscriptionRepository {
   }
 }
 
+class BillingBackedSubscriptionRepository implements SubscriptionRepository {
+  BillingBackedSubscriptionRepository(this._billing);
+
+  final BillingService _billing;
+
+  @override
+  Future<Either<Failure, List<PlanEntity>>> getPlans() => _billing.getProducts();
+
+  @override
+  Future<Either<Failure, SubscriptionEntity>> getMine() =>
+      _billing.getSubscriptionStatus();
+
+  @override
+  Future<Either<Failure, SubscriptionEntity>> changePlan(String planId) =>
+      _billing.purchase(planId);
+
+  @override
+  Future<Either<Failure, void>> cancel() async {
+    final info = await _billing.cancelInformation();
+    return info.fold(Left.new, (_) => const Right(null));
+  }
+}
+
 abstract class AssignmentRepository {
   Future<Either<Failure, List<AssignmentEntity>>> forCourse(String courseId);
 }
@@ -97,4 +121,3 @@ class MockAssignmentRepository implements AssignmentRepository {
     ]);
   }
 }
-

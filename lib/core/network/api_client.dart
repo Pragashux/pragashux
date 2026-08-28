@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:vibrant_lms/core/config/app_config.dart';
 import 'package:vibrant_lms/core/constants/app_constants.dart';
+import 'package:vibrant_lms/core/logging/app_logger.dart';
 import 'package:vibrant_lms/services/secure_storage_service.dart';
 
 /// REST-ready HTTP client. Point [baseUrl] at your LMS API when ready.
 class ApiClient {
   ApiClient({
     required AuthTokenStore tokenStore,
-    String baseUrl = 'http://127.0.0.1:8000/v1',
+    String baseUrl = AppConfig.apiBaseUrl,
     Dio? dio,
   })  : _tokenStore = tokenStore,
         _dio = dio ??
@@ -32,7 +35,9 @@ class ApiClient {
           handler.next(options);
         },
         onError: (error, handler) {
-          _logger.e('API error', error: error, stackTrace: error.stackTrace);
+          if (kDebugMode) {
+            _logger.e('API error', error: error, stackTrace: error.stackTrace);
+          }
           handler.next(error);
         },
       ),
@@ -41,7 +46,7 @@ class ApiClient {
 
   final Dio _dio;
   final AuthTokenStore _tokenStore;
-  final _logger = Logger();
+  final Logger _logger = createAppLogger();
 
   Dio get dio => _dio;
 

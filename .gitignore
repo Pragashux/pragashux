@@ -55,3 +55,14 @@ backend/storage/
 .pytest_cache/
 __pycache__/
 *.pyc
+
+# Android release signing (never commit)
+android/keystore.properties
+android/keystore/
+*.jks
+*.keystore
+*.jks.p12
+
+# Release binaries
+*.aab
+/releases/

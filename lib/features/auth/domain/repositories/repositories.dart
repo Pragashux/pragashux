@@ -25,6 +25,7 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> socialLogin(String provider);
   Future<Either<Failure, UserEntity?>> getCurrentUser();
   Future<Either<Failure, void>> logout();
+  Future<Either<Failure, void>> deleteAccount();
   Stream<UserEntity?> get authStateChanges;
 }
 
@@ -166,6 +167,13 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> logout() async {
+    await _tokenStore.clearSession();
+    _current = null;
+    return const Right(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAccount() async {
     await _tokenStore.clearSession();
     _current = null;
     return const Right(null);

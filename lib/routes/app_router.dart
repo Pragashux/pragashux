@@ -13,6 +13,7 @@ import 'package:vibrant_lms/features/auth/presentation/pages/auth_pages.dart';
 import 'package:vibrant_lms/features/certificates/presentation/pages/certificates_page.dart';
 import 'package:vibrant_lms/features/courses/presentation/pages/course_pages.dart';
 import 'package:vibrant_lms/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:vibrant_lms/features/legal/presentation/pages/legal_pages.dart';
 import 'package:vibrant_lms/features/lessons/presentation/pages/learning_page.dart';
 import 'package:vibrant_lms/features/profile/presentation/pages/profile_pages.dart';
 import 'package:vibrant_lms/features/subscription/presentation/pages/subscription_pages.dart';
@@ -68,6 +69,14 @@ class AppRouter {
       GoRoute(
         path: '/forgot-password',
         builder: (_, __) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: '/legal/privacy',
+        builder: (_, __) => LegalDocumentPage.privacy(),
+      ),
+      GoRoute(
+        path: '/legal/terms',
+        builder: (_, __) => LegalDocumentPage.terms(),
       ),
       GoRoute(
         path: '/otp',

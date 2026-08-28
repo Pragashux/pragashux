@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vibrant_lms/core/config/app_config.dart';
 import 'package:vibrant_lms/core/di/injection.dart';
 import 'package:vibrant_lms/features/ai/domain/ai_repository.dart';
 import 'package:vibrant_lms/shared/models/entities.dart';
@@ -113,7 +114,8 @@ class _AiTutorPageState extends State<AiTutorPage> {
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
             child: Text(
-              '${widget.courseTitle ?? 'UX Design for Beginners'} · ${widget.lessonTitle ?? 'User Research'} · intermediate',
+              '${widget.courseTitle ?? 'UX Design for Beginners'} · ${widget.lessonTitle ?? 'User Research'}\n'
+              '${AppConfig.aiDisclaimer}',
               style: theme.textTheme.labelMedium?.copyWith(color: AppColors.ai),
             ),
           ),
@@ -199,6 +201,7 @@ class _AiTutorPageState extends State<AiTutorPage> {
                   ),
                   const SizedBox(width: 8),
                   IconButton.filled(
+                    tooltip: 'Send message',
                     onPressed: _busy ? null : () => _send(_controller.text),
                     icon: _busy
                         ? const SizedBox(

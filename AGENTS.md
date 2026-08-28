@@ -43,6 +43,16 @@ npm run preview   # UI at http://127.0.0.1:5173/ (sample data, no Figma)
 
 Import in Figma Desktop via **Plugins → Development → Import plugin from manifest…** and choose `a11y-lens/manifest.json`.
 
+### Google Play Android bundle
+
+```bash
+# Requires android/keystore.properties (gitignored). See android/SIGNING.md.
+flutter build appbundle --release --dart-define=API_BASE_URL=https://api.ailearnos.app/v1
+# Output: build/app/outputs/bundle/release/app-release.aab
+```
+
+Play listing copy and checklists: `docs/play/`.
+
 ### Lint / test / build
 
 Flutter (repo root):

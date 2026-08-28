@@ -138,3 +138,11 @@ def update_me(body: dict, user: User = Depends(current_user), db: Session = Depe
     db.commit()
     db.refresh(user)
     return _user_out(user)
+
+
+@router.delete("/me")
+def delete_me(user: User = Depends(current_user), db: Session = Depends(get_db)):
+    user.status = "deleted"
+    user.email = f"deleted-{user.id}@invalid.local"
+    db.commit()
+    return {"ok": True}
