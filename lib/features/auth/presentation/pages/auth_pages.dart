@@ -276,7 +276,7 @@ class _SignupPageState extends State<SignupPage> {
             );
           }
           if (state is AuthAuthenticated) {
-            context.go('/otp?email=${Uri.encodeComponent(_email.text.trim())}');
+            context.go('/onboarding');
           }
         },
         builder: (context, state) {
@@ -290,7 +290,7 @@ class _SignupPageState extends State<SignupPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Join Vibrant LMS',
+                      'Create your LearnOS account',
                       style: theme.textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 8),

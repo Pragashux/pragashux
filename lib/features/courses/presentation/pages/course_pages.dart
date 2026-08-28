@@ -45,7 +45,16 @@ class _CourseCatalogPageState extends State<CourseCatalogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Course catalog')),
+      appBar: AppBar(
+        title: const Text('Courses'),
+        actions: [
+          IconButton(
+            tooltip: 'Search',
+            onPressed: () => context.push('/search'),
+            icon: const Icon(Icons.search_rounded),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(

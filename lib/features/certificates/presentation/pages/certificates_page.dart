@@ -116,7 +116,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
                           onPressed: () {
                             final url = c.shareUrl ?? '';
                             Share.share(
-                              'I earned a Vibrant LMS certificate for ${c.courseTitle}! $url',
+                              'I earned an AI LearnOS certificate for ${c.courseTitle}! $url',
                             );
                           },
                           icon: const Icon(Icons.share_outlined),

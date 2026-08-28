@@ -14,7 +14,7 @@ void main() {
 
   const user = UserEntity(
     id: '1',
-    email: 'student@vibrant.lms',
+    email: 'student@ailearnos.app',
     displayName: 'Sam',
     role: UserRole.student,
   );
@@ -36,8 +36,8 @@ void main() {
     },
     act: (bloc) => bloc.add(
       const AuthLoginRequested(
-        email: 'student@vibrant.lms',
-        password: 'Vibrant@123',
+        email: 'student@ailearnos.app',
+        password: 'LearnOS@123',
       ),
     ),
     expect: () => [

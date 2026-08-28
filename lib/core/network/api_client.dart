@@ -7,7 +7,7 @@ import 'package:vibrant_lms/services/secure_storage_service.dart';
 class ApiClient {
   ApiClient({
     required AuthTokenStore tokenStore,
-    String baseUrl = 'https://api.vibrant.lms/v1',
+    String baseUrl = 'http://127.0.0.1:8000/v1',
     Dio? dio,
   })  : _tokenStore = tokenStore,
         _dio = dio ??

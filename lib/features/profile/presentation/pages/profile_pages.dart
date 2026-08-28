@@ -153,6 +153,14 @@ class ProfilePage extends StatelessWidget {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.workspace_premium_outlined),
+            title: const Text('Subscription'),
+            subtitle: Text(user.planId.toUpperCase()),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/subscription'),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.notifications_outlined),
             title: const Text('Notifications'),
             trailing: const Icon(Icons.chevron_right),

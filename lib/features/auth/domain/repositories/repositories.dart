@@ -55,14 +55,17 @@ class MockAuthRepository implements AuthRepository {
     final user = UserEntity(
       id: isAdmin ? 'admin_1' : 'student_1',
       email: email,
-      displayName: isAdmin ? 'Alex Admin' : 'Sam Student',
+      displayName: isAdmin ? 'Alex Morgan' : 'Sam Rivera',
       role: isAdmin ? UserRole.admin : UserRole.student,
       photoUrl: isAdmin
           ? 'https://i.pravatar.cc/150?u=admin'
           : 'https://i.pravatar.cc/150?u=student',
-      streakDays: isAdmin ? 0 : 7,
-      totalXp: isAdmin ? 0 : 2450,
-      coursesCompleted: isAdmin ? 0 : 3,
+      streakDays: isAdmin ? 0 : 12,
+      totalXp: isAdmin ? 0 : 2840,
+      coursesCompleted: isAdmin ? 0 : 1,
+      skillLevel: isAdmin ? 'advanced' : 'intermediate',
+      interests: isAdmin ? const [] : const ['UX Design', 'Product', 'AI'],
+      goals: isAdmin ? const [] : const ['Land a UX role', 'Build a portfolio'],
       createdAt: DateTime.now().subtract(const Duration(days: 120)),
     );
 
@@ -146,14 +149,17 @@ class MockAuthRepository implements AuthRepository {
       email: isAdmin
           ? AppConstants.demoAdminEmail
           : AppConstants.demoStudentEmail,
-      displayName: isAdmin ? 'Alex Admin' : 'Sam Student',
+      displayName: isAdmin ? 'Alex Morgan' : 'Sam Rivera',
       role: isAdmin ? UserRole.admin : UserRole.student,
       photoUrl: isAdmin
           ? 'https://i.pravatar.cc/150?u=admin'
           : 'https://i.pravatar.cc/150?u=student',
-      streakDays: isAdmin ? 0 : 7,
-      totalXp: isAdmin ? 0 : 2450,
+      streakDays: isAdmin ? 0 : 12,
+      totalXp: isAdmin ? 0 : 2840,
       coursesCompleted: isAdmin ? 0 : 3,
+      skillLevel: isAdmin ? 'advanced' : 'intermediate',
+      interests: isAdmin ? const [] : const ['UX Design', 'Product', 'AI'],
+      goals: isAdmin ? const [] : const ['Land a UX role', 'Build a portfolio'],
     );
     return Right(_current);
   }
@@ -339,6 +345,7 @@ abstract class AdminRepository {
   Future<Either<Failure, AdminStatsEntity>> getStats();
   Future<Either<Failure, List<CourseEntity>>> getManagedCourses();
   Future<Either<Failure, List<UserEntity>>> getStudents();
+  Future<Either<Failure, List<StudentInsightEntity>>> getAtRiskStudents();
 }
 
 class MockAdminRepository implements AdminRepository {
@@ -356,7 +363,38 @@ class MockAdminRepository implements AdminRepository {
   @override
   Future<Either<Failure, List<UserEntity>>> getStudents() async {
     return Right([
-      for (var i = 1; i <= 12; i++)
+      const UserEntity(
+        id: 'student_1',
+        email: 'student@ailearnos.app',
+        displayName: 'Sam Rivera',
+        role: UserRole.student,
+        streakDays: 12,
+        totalXp: 2840,
+        skillLevel: 'intermediate',
+        photoUrl: 'https://i.pravatar.cc/150?u=student',
+      ),
+      const UserEntity(
+        id: 'student_2',
+        email: 'jordan@ailearnos.app',
+        displayName: 'Jordan Lee',
+        role: UserRole.student,
+        streakDays: 2,
+        totalXp: 640,
+        skillLevel: 'beginner',
+        status: 'active',
+        photoUrl: 'https://i.pravatar.cc/150?u=jordan',
+      ),
+      const UserEntity(
+        id: 'student_3',
+        email: 'riley@ailearnos.app',
+        displayName: 'Riley Chen',
+        role: UserRole.student,
+        streakDays: 0,
+        totalXp: 220,
+        skillLevel: 'beginner',
+        photoUrl: 'https://i.pravatar.cc/150?u=riley',
+      ),
+      for (var i = 4; i <= 12; i++)
         UserEntity(
           id: 's$i',
           email: 'student$i@mail.com',
@@ -367,6 +405,23 @@ class MockAdminRepository implements AdminRepository {
           totalXp: i * 320,
           coursesCompleted: i % 4,
         ),
+    ]);
+  }
+
+  @override
+  Future<Either<Failure, List<StudentInsightEntity>>> getAtRiskStudents() async {
+    final students = (await getStudents()).getOrElse(() => []);
+    return Right([
+      StudentInsightEntity(
+        user: students[1],
+        flags: const ['falling_behind', 'weak_topics'],
+        needsIntervention: true,
+      ),
+      StudentInsightEntity(
+        user: students[2],
+        flags: const ['dropout_risk', 'low_engagement'],
+        needsIntervention: true,
+      ),
     ]);
   }
 }

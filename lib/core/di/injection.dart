@@ -2,8 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibrant_lms/core/network/api_client.dart';
+import 'package:vibrant_lms/features/ai/domain/ai_repository.dart';
 import 'package:vibrant_lms/features/auth/domain/repositories/repositories.dart';
 import 'package:vibrant_lms/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:vibrant_lms/features/subscription/domain/subscription_repository.dart';
 import 'package:vibrant_lms/services/firebase_service.dart';
 import 'package:vibrant_lms/services/secure_storage_service.dart';
 import 'package:vibrant_lms/themes/theme_mode_cubit.dart';
@@ -44,7 +46,15 @@ Future<void> configureDependencies({bool demoMode = true}) async {
   );
   sl.registerLazySingleton<AdminRepository>(() => MockAdminRepository());
 
-  sl.registerFactory(() => AuthBloc(sl()));
+    sl.registerLazySingleton<AiRepository>(() => MockAiRepository());
+    sl.registerLazySingleton<SubscriptionRepository>(
+      () => MockSubscriptionRepository(),
+    );
+    sl.registerLazySingleton<AssignmentRepository>(
+      () => MockAssignmentRepository(),
+    );
+
+    sl.registerFactory(() => AuthBloc(sl()));
 
   await sl<FirebaseService>().initialize();
   await sl<NotificationService>().initialize();
