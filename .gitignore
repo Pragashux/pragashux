@@ -47,4 +47,11 @@ lib/firebase_options.dart
 
 # Env
 .env
-.env.*
+.env.local
+.env.*.local
+learnos.db
+backend/learnos.db
+backend/storage/
+.pytest_cache/
+__pycache__/
+*.pyc
