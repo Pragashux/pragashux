@@ -7,6 +7,7 @@ Failure mapDioError(Object error) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
+      case DioExceptionType.transformTimeout:
       case DioExceptionType.connectionError:
         return const NetworkFailure(
           'Unable to connect. Please check your internet connection and try again.',

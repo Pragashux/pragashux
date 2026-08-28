@@ -12,5 +12,8 @@
 -dontwarn org.conscrypt.**
 -keep class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 
-# flutter_secure_storage
--keep class com.it_nomads.fluttersecurestorage.** { *; }
+# Flutter Play Store deferred components (unused in this app)
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+

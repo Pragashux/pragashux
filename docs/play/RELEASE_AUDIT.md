@@ -28,7 +28,7 @@ Scope: Flutter Android client (`android/`) + FastAPI backend. This is a **submis
 
 ## Build
 
-- AGP 8.9.1, compile/target SDK **36**, min SDK **24** (Flutter defaults).
+- AGP **8.11.1**, Gradle **8.14.3**, Kotlin **2.2.20**, compile/target SDK **36**, min SDK **24**.
 - Version `1.0.0` (`versionCode` 1) from `pubspec.yaml`.
 
 ## Play policy risks (owner must finish)

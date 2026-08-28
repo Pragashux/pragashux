@@ -18,6 +18,21 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
   await configureDependencies();
+  ErrorWidget.builder = (details) {
+    return Material(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            kReleaseMode
+                ? 'Something went wrong. Please restart the app.'
+                : details.exceptionAsString(),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  };
   runApp(const VibrantLmsApp());
 }
 
@@ -61,24 +76,6 @@ class _VibrantLmsAppState extends State<VibrantLmsApp> {
             darkTheme: AppTheme.dark(),
             themeMode: themeMode,
             routerConfig: _appRouter.router,
-            builder: (context, child) {
-              ErrorWidget.builder = (details) {
-                return Material(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Text(
-                        kReleaseMode
-                            ? 'Something went wrong. Please restart the app.'
-                            : details.exceptionAsString(),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                );
-              };
-              return child ?? const SizedBox.shrink();
-            },
           );
         },
       ),
