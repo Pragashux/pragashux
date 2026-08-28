@@ -133,6 +133,24 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: AppSpacing.md),
+              StatTile(
+                label: 'AI usage · at-risk students',
+                value: '${NumberFormat.compact().format(s.aiUsage)} · ${s.atRiskStudents}',
+                icon: Icons.auto_awesome_rounded,
+                color: AppColors.secondary,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Text('AI automation', style: theme.textTheme.titleMedium),
+              const SizedBox(height: 8),
+              for (final insight in s.insights)
+                Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: const Icon(Icons.auto_awesome_outlined),
+                    title: Text(insight),
+                  ),
+                ),
               const SizedBox(height: AppSpacing.xl),
               Text('Enrollments (7 days)', style: theme.textTheme.titleMedium),
               const SizedBox(height: AppSpacing.md),
@@ -239,15 +257,9 @@ class _AdminCoursesPageState extends State<AdminCoursesPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Course management')),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Course builder opens here (Firebase Storage ready)'),
-            ),
-          );
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('New course'),
+        onPressed: () => context.push('/admin/generate'),
+        icon: const Icon(Icons.auto_awesome_rounded),
+        label: const Text('Generate with AI'),
       ),
       body: FutureBuilder<List<CourseEntity>>(
         future: _future,

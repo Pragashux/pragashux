@@ -36,6 +36,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final user = context.watch<AuthBloc>().state;
+    final hour = DateTime.now().hour;
     final name = user is AuthAuthenticated ? user.user.displayName : 'Learner';
     final streak = user is AuthAuthenticated ? user.user.streakDays : 0;
     final xp = user is AuthAuthenticated ? user.user.totalXp : 0;
@@ -64,11 +65,13 @@ class _StudentDashboardPageState extends State<StudentDashboardPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hello, ${name.split(' ').first}',
+                      '${hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'}, ${name.split(' ').first}',
                       style: theme.textTheme.titleLarge,
                     ),
                     Text(
-                      'Ready to learn something new?',
+                      continueCourse == null
+                          ? 'Your AI teacher is ready when you are.'
+                          : 'You are ${(continueCourse.progress * 100).round()}% through ${continueCourse.title}.',
                       style: theme.textTheme.bodySmall,
                     ),
                   ],
@@ -115,6 +118,21 @@ class _StudentDashboardPageState extends State<StudentDashboardPage> {
                     child: ContinueLearningCard(course: continueCourse),
                   ),
                 ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: Card(
+                    color: AppColors.aiSoft,
+                    child: ListTile(
+                      leading: const Icon(Icons.auto_awesome_rounded, color: AppColors.ai),
+                      title: const Text('AI recommends a 15-minute revision today'),
+                      subtitle: const Text('Your User Research fundamentals need improvement.'),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () => context.go('/learn-hub'),
+                    ),
+                  ),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),

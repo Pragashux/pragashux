@@ -1,13 +1,13 @@
-/// App-wide constants for Vibrant LMS.
+/// App-wide constants for AI LearnOS.
 abstract final class AppConstants {
-  static const String appName = 'Vibrant LMS';
-  static const String appTagline = 'Learn boldly. Grow daily.';
+  static const String appName = 'AI LearnOS';
+  static const String appTagline = 'Your AI teacher for every course.';
   static const String demoModeKey = 'demo_mode';
 
-  /// Demo credentials (mock auth — replace with Firebase).
-  static const String demoStudentEmail = 'student@vibrant.lms';
-  static const String demoAdminEmail = 'admin@vibrant.lms';
-  static const String demoPassword = 'Vibrant@123';
+  /// Demo credentials (mock auth — production uses the LearnOS API).
+  static const String demoStudentEmail = 'student@ailearnos.app';
+  static const String demoAdminEmail = 'admin@ailearnos.app';
+  static const String demoPassword = 'LearnOS@123';
 
   static const int otpLength = 6;
   static const int otpResendSeconds = 60;
