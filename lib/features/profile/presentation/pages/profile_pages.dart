@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibrant_lms/core/constants/mock_data.dart';
 import 'package:vibrant_lms/core/di/injection.dart';
 import 'package:vibrant_lms/features/auth/domain/repositories/repositories.dart';
@@ -153,6 +155,14 @@ class ProfilePage extends StatelessWidget {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.workspace_premium_outlined),
+            title: const Text('Subscription'),
+            subtitle: Text(user.planId.toUpperCase()),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/subscription'),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.notifications_outlined),
             title: const Text('Notifications'),
             trailing: const Icon(Icons.chevron_right),
@@ -189,8 +199,27 @@ class ProfilePage extends StatelessWidget {
       };
 }
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  static const _pushKey = 'pref_push_notifications';
+  static const _emailKey = 'pref_email_digests';
+  late final SharedPreferences _prefs;
+  bool _push = true;
+  bool _email = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _prefs = sl<SharedPreferences>();
+    _push = _prefs.getBool(_pushKey) ?? true;
+    _email = _prefs.getBool(_emailKey) ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,14 +250,22 @@ class SettingsPage extends StatelessWidget {
           const Divider(),
           SwitchListTile(
             title: const Text('Push notifications'),
-            subtitle: const Text('Course updates & reminders'),
-            value: true,
-            onChanged: (_) {},
+            subtitle: const Text(
+              'Course reminders, assignment feedback, certificates, and subscription notices',
+            ),
+            value: _push,
+            onChanged: (value) async {
+              await _prefs.setBool(_pushKey, value);
+              setState(() => _push = value);
+            },
           ),
           SwitchListTile(
             title: const Text('Email digests'),
-            value: false,
-            onChanged: (_) {},
+            value: _email,
+            onChanged: (value) async {
+              await _prefs.setBool(_emailKey, value);
+              setState(() => _email = value);
+            },
           ),
           SwitchListTile(
             title: const Text('Download over Wi‑Fi only'),
@@ -239,21 +276,50 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             title: const Text('Privacy policy'),
             trailing: const Icon(Icons.open_in_new),
-            onTap: () {},
+            onTap: () => context.push('/legal/privacy'),
           ),
           ListTile(
             title: const Text('Terms of use'),
             trailing: const Icon(Icons.open_in_new),
-            onTap: () {},
+            onTap: () => context.push('/legal/terms'),
           ),
+          if (kDebugMode)
+            const ListTile(
+              title: Text('Debug build'),
+              subtitle: Text('Demo repositories may be enabled'),
+            ),
+          const Divider(),
           ListTile(
-            title: Text(
-              'Demo mode',
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            ),
+            title: const Text('Delete account'),
             subtitle: const Text(
-              'Running with mock repositories (Firebase-ready)',
+              'Removes this account and associated learning data from the device and requests server deletion.',
             ),
+            textColor: Theme.of(context).colorScheme.error,
+            onTap: () async {
+              final ok = await showDialog<bool>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('Delete your account?'),
+                  content: const Text(
+                    'This cannot be undone. Course progress and AI history tied to this account will be deleted.',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, false),
+                      child: const Text('Cancel'),
+                    ),
+                    FilledButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
+              );
+              if (ok == true && context.mounted) {
+                context.read<AuthBloc>().add(const AuthDeleteAccountRequested());
+                context.go('/login');
+              }
+            },
           ),
         ],
       ),

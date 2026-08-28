@@ -1,71 +1,61 @@
-# Vibrant LMS
+# AI LearnOS
 
-Enterprise-grade Learning Management System for **iOS** and **Android**, built with Flutter.
+AI-first Learning Management System. The Android client is Flutter (Material 3) hosted in a Kotlin `MainActivity`. Intelligence, keys, and payments live on the FastAPI backend.
 
-## Highlights
+> Student subscribes → AI understands the student → AI teaches the journey → AI generates materials → AI evaluates → AI adapts → AI helps admins run the platform.
 
-- **Student Portal** — dashboard, catalog, learning player, assessments, certificates, notifications, profile & analytics
-- **Admin Portal** — KPIs, course management, student directory, engagement analytics
-- **Clean Architecture** — features → domain / data / presentation, repository pattern, `get_it` DI
-- **State** — `flutter_bloc` + secure session storage
-- **Navigation** — `go_router` with role-based redirects
-- **Design** — Material 3, design tokens, light/dark themes, responsive phone & tablet shells
-- **Firebase-ready** — Auth, Firestore, Storage, FCM facades (demo mode runs offline with mocks)
-- **REST-ready** — `Dio` `ApiClient` with bearer token interceptor
+## Local demo (debug / backend seed only)
 
-## Demo credentials
+These accounts exist in the seeded FastAPI database and in **debug** Flutter builds. They are not used by the Play release binary.
 
-| Role    | Email                 | Password     |
-|---------|-----------------------|--------------|
-| Student | `student@vibrant.lms` | `Vibrant@123` |
-| Admin   | `admin@vibrant.lms`   | `Vibrant@123` |
+| Role    | Email                     | Password     |
+|---------|---------------------------|--------------|
+| Student | `student@ailearnos.app`   | `LearnOS@123` |
+| Admin   | `admin@ailearnos.app`     | `LearnOS@123` |
 
-OTP demo code: any 6 digits (e.g. `123456`).
+Play submission docs live in `docs/play/`. A generated `.aab` is **ready for submission** after you host APIs, a privacy URL, and Play Billing — that is not Google Play approval.
 
-## Project structure
+## Architecture
+
+See `docs/ARCHITECTURE.md` and `docs/API.md`.
 
 ```
-lib/
-├── core/           # constants, DI, errors, network, usecases
-├── shared/         # entities, reusable widgets
-├── features/       # auth, dashboard, courses, lessons, assessments,
-│                   # certificates, analytics, notifications, profile, admin
-├── services/       # secure storage, Firebase, FCM
-├── routes/         # GoRouter + role guards
-└── themes/         # tokens, typography, Material 3 themes
+Android app  →  REST + JWT  →  FastAPI  →  AIService  →  MockLLM or OpenAI-compatible provider
 ```
 
-## Getting started
+LLM API keys never ship in the Android app.
+
+## Mobile (Flutter / Android)
 
 ```bash
+export PATH="/opt/flutter/bin:$PATH"
 flutter pub get
-flutter run
+flutter test
+flutter analyze
+flutter run --dart-define=DEMO_MODE=true --dart-define=API_BASE_URL=http://10.0.2.2:8000/v1
+flutter build appbundle --release --dart-define=API_BASE_URL=https://api.ailearnos.app/v1
 ```
 
-### Enable Firebase (production)
+Release signing: `android/SIGNING.md`. Do not commit `android/keystore.properties` or `*.jks`.
 
-1. Create a Firebase project and enable Auth, Firestore, Storage, FCM.
-2. Run `flutterfire configure`.
-3. Set `demoMode: false` in `main.dart` → `configureDependencies`.
-4. Replace `Mock*Repository` registrations in `lib/core/di/injection.dart` with Firebase implementations.
-
-### Platforms
-
-- Android (`minSdk` per Flutter defaults)
-- iOS 13+
-
-## Design system
-
-- Primary teal `#0F766E`, coral accent `#EA580C`
-- Display: **Outfit** · Body: **Plus Jakarta Sans** (`google_fonts`)
-- Tokens: `lib/themes/app_tokens.dart`
-- Themes: `lib/themes/app_theme.dart`
-
-## Scripts
+## Backend
 
 ```bash
-flutter analyze
-flutter test
-flutter build apk
-flutter build ios
+cd backend
+python3 -m pip install -r requirements.txt
+cp .env.example .env   # set JWT_SECRET; add LLM_API_KEY only on the server
+python3 -m pytest
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
+
+Health: `GET http://127.0.0.1:8000/health`
+
+When `LLM_PROVIDER=mock` (default), the tutor and course generator use a deterministic engine. Set `LLM_PROVIDER=openai` and `LLM_API_KEY` to switch providers without changing the Android client.
+
+Payments use `MockPaymentProvider`. A Stripe implementation plugs into the same `PaymentProvider` interface.
+
+## Feature map
+
+Student: auth, onboarding, home, catalog, course player, AI tutor, study mode, daily plan, assessments, assignments, subscriptions, certificates, notifications, profile.
+
+Admin: dashboard KPIs, student directory with at-risk flags, AI course generator (review before publish), analytics, admin assistant (destructive actions require confirmation).

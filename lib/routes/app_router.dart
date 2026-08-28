@@ -3,15 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibrant_lms/features/admin/presentation/pages/admin_ai_pages.dart';
 import 'package:vibrant_lms/features/admin/presentation/pages/admin_pages.dart';
+import 'package:vibrant_lms/features/ai/presentation/pages/learn_hub_page.dart';
+import 'package:vibrant_lms/features/ai/presentation/pages/tutor_page.dart';
 import 'package:vibrant_lms/features/assessments/presentation/pages/assessment_page.dart';
 import 'package:vibrant_lms/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:vibrant_lms/features/auth/presentation/pages/auth_pages.dart';
 import 'package:vibrant_lms/features/certificates/presentation/pages/certificates_page.dart';
 import 'package:vibrant_lms/features/courses/presentation/pages/course_pages.dart';
 import 'package:vibrant_lms/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:vibrant_lms/features/legal/presentation/pages/legal_pages.dart';
 import 'package:vibrant_lms/features/lessons/presentation/pages/learning_page.dart';
 import 'package:vibrant_lms/features/profile/presentation/pages/profile_pages.dart';
+import 'package:vibrant_lms/features/subscription/presentation/pages/subscription_pages.dart';
 import 'package:vibrant_lms/shared/widgets/app_shell.dart';
 
 class AppRouter {
@@ -66,6 +71,14 @@ class AppRouter {
         builder: (_, __) => const ForgotPasswordPage(),
       ),
       GoRoute(
+        path: '/legal/privacy',
+        builder: (_, __) => LegalDocumentPage.privacy(),
+      ),
+      GoRoute(
+        path: '/legal/terms',
+        builder: (_, __) => LegalDocumentPage.terms(),
+      ),
+      GoRoute(
         path: '/otp',
         builder: (_, state) => OtpVerificationPage(
           email: state.uri.queryParameters['email'] ?? '',
@@ -94,8 +107,16 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/certificates',
-                builder: (_, __) => const CertificatesPage(),
+                path: '/learn-hub',
+                builder: (_, __) => const LearnHubPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/tutor',
+                builder: (_, __) => const AiTutorPage(),
               ),
             ],
           ),
@@ -119,6 +140,28 @@ class AppRouter {
         path: '/learn/:id',
         builder: (_, state) => LearningPage(
           courseId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (_, __) => const OnboardingPage(),
+      ),
+      GoRoute(
+        path: '/subscription',
+        builder: (_, __) => const SubscriptionPage(),
+      ),
+      GoRoute(
+        path: '/search',
+        builder: (_, __) => const SearchPage(),
+      ),
+      GoRoute(
+        path: '/certificates',
+        builder: (_, __) => const CertificatesPage(),
+      ),
+      GoRoute(
+        path: '/assignments/:courseId',
+        builder: (_, state) => AssignmentPage(
+          courseId: state.pathParameters['courseId']!,
         ),
       ),
       GoRoute(
@@ -158,6 +201,14 @@ class AppRouter {
             path: '/admin/analytics',
             builder: (_, __) => const AdminAnalyticsPage(),
           ),
+          GoRoute(
+            path: '/admin/assistant',
+            builder: (_, __) => const AdminAssistantPage(),
+          ),
+          GoRoute(
+            path: '/admin/generate',
+            builder: (_, __) => const AdminCourseGeneratorPage(),
+          ),
         ],
       ),
     ],
@@ -166,11 +217,16 @@ class AppRouter {
   bool _isStudentOnly(String loc) {
     return loc == '/home' ||
         loc == '/catalog' ||
+        loc == '/learn-hub' ||
+        loc == '/tutor' ||
         loc == '/certificates' ||
         loc == '/profile' ||
+        loc == '/onboarding' ||
+        loc == '/subscription' ||
         loc.startsWith('/learn') ||
         loc.startsWith('/courses') ||
-        loc.startsWith('/assessments');
+        loc.startsWith('/assessments') ||
+        loc.startsWith('/assignments');
   }
 }
 
@@ -197,13 +253,13 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.auto_stories_rounded,
+              Icons.auto_awesome_rounded,
               size: 64,
               color: theme.colorScheme.primary,
             ),
             const SizedBox(height: 16),
             Text(
-              'Vibrant LMS',
+              'AI LearnOS',
               style: theme.textTheme.headlineMedium?.copyWith(
                 color: theme.colorScheme.primary,
               ),

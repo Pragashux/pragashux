@@ -63,9 +63,19 @@ class _LearningPageState extends State<LearningPage> {
         title: const Text('Learning'),
         actions: [
           IconButton(
+            tooltip: 'AI Tutor',
+            onPressed: () => context.push('/tutor'),
+            icon: const Icon(Icons.auto_awesome_rounded),
+          ),
+          IconButton(
             tooltip: 'Take assessment',
             onPressed: () => context.push('/assessments/${widget.courseId}'),
             icon: const Icon(Icons.quiz_outlined),
+          ),
+          IconButton(
+            tooltip: 'Assignment',
+            onPressed: () => context.push('/assignments/${widget.courseId}'),
+            icon: const Icon(Icons.assignment_outlined),
           ),
           IconButton(
             tooltip: 'Discussion',
@@ -141,6 +151,29 @@ class _LearningPageState extends State<LearningPage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(course.title, style: theme.textTheme.titleSmall),
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    for (final label in [
+                      'Explain this simpler',
+                      'Give me an example',
+                      'Summarize this',
+                      'Quiz me',
+                      'Teach me from the beginning',
+                      'Give me real-world examples',
+                    ])
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8, bottom: 8),
+                        child: ActionChip(
+                          label: Text(label),
+                          onPressed: () => context.push('/tutor'),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               Expanded(flex: 3, child: player),

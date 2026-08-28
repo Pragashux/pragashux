@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _email = TextEditingController(text: AppConstants.demoStudentEmail);
-  final _password = TextEditingController(text: AppConstants.demoPassword);
+  final _email = TextEditingController(
+    text: kDebugMode ? AppConstants.demoStudentEmail : '',
+  );
+  final _password = TextEditingController(
+    text: kDebugMode ? AppConstants.demoPassword : '',
+  );
   bool _obscure = true;
 
   @override
@@ -203,8 +208,10 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: AppSpacing.md),
-                        _DemoHints(theme: theme),
+                        if (kDebugMode) ...[
+                          const SizedBox(height: AppSpacing.md),
+                          _DemoHints(theme: theme),
+                        ],
                       ],
                     ),
                   ),
@@ -276,7 +283,7 @@ class _SignupPageState extends State<SignupPage> {
             );
           }
           if (state is AuthAuthenticated) {
-            context.go('/otp?email=${Uri.encodeComponent(_email.text.trim())}');
+            context.go('/onboarding');
           }
         },
         builder: (context, state) {
@@ -290,7 +297,7 @@ class _SignupPageState extends State<SignupPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Join Vibrant LMS',
+                      'Create your LearnOS account',
                       style: theme.textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 8),

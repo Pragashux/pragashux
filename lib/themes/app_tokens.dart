@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-/// Vibrant LMS Design Tokens — WCAG-conscious color system.
-/// Primary: deep teal · Accent: energetic coral · Neutrals: cool slate.
+/// AI LearnOS design tokens — ink teal, quiet violet AI accent, warm paper.
 abstract final class AppColors {
   // Brand
-  static const Color primary = Color(0xFF0F766E);
-  static const Color primaryLight = Color(0xFF14B8A6);
-  static const Color primaryDark = Color(0xFF115E59);
-  static const Color primaryContainer = Color(0xFFCCFBF1);
+  static const Color primary = Color(0xFF125E5A);
+  static const Color primaryLight = Color(0xFF1D9A8A);
+  static const Color primaryDark = Color(0xFF0B3D3A);
+  static const Color primaryContainer = Color(0xFFD7F3EE);
   static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color onPrimaryContainer = Color(0xFF042F2E);
+  static const Color onPrimaryContainer = Color(0xFF062422);
 
-  static const Color secondary = Color(0xFFEA580C);
-  static const Color secondaryLight = Color(0xFFFB923C);
-  static const Color secondaryContainer = Color(0xFFFFEDD5);
+  static const Color secondary = Color(0xFF5B4BDB);
+  static const Color secondaryLight = Color(0xFF8B7CFF);
+  static const Color secondaryContainer = Color(0xFFEEECFF);
   static const Color onSecondary = Color(0xFFFFFFFF);
-  static const Color onSecondaryContainer = Color(0xFF7C2D12);
+  static const Color onSecondaryContainer = Color(0xFF241A72);
+
+  static const Color ai = Color(0xFF5B4BDB);
+  static const Color aiSoft = Color(0xFFF3F1FF);
 
   static const Color tertiary = Color(0xFF0284C7);
   static const Color tertiaryContainer = Color(0xFFE0F2FE);
@@ -31,7 +33,7 @@ abstract final class AppColors {
   static const Color infoContainer = Color(0xFFDBEAFE);
 
   // Neutrals — Light
-  static const Color lightBackground = Color(0xFFF8FAFC);
+  static const Color lightBackground = Color(0xFFF6F3EE);
   static const Color lightSurface = Color(0xFFFFFFFF);
   static const Color lightSurfaceVariant = Color(0xFFF1F5F9);
   static const Color lightOutline = Color(0xFFCBD5E1);

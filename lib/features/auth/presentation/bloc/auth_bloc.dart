@@ -61,6 +61,10 @@ class AuthLogoutRequested extends AuthEvent {
   const AuthLogoutRequested();
 }
 
+class AuthDeleteAccountRequested extends AuthEvent {
+  const AuthDeleteAccountRequested();
+}
+
 // States
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -111,6 +115,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOtpVerified>(_onOtp);
     on<AuthSocialRequested>(_onSocial);
     on<AuthLogoutRequested>(_onLogout);
+    on<AuthDeleteAccountRequested>(_onDelete);
   }
 
   final AuthRepository _repo;
@@ -198,5 +203,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     await _repo.logout();
     emit(const AuthUnauthenticated());
+  }
+
+  Future<void> _onDelete(
+    AuthDeleteAccountRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(const AuthLoading());
+    final result = await _repo.deleteAccount();
+    result.fold(
+      (f) => emit(AuthFailureState(f.message)),
+      (_) => emit(const AuthUnauthenticated()),
+    );
   }
 }

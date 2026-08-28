@@ -47,4 +47,26 @@ lib/firebase_options.dart
 
 # Env
 .env
-.env.*
+.env.local
+.env.*.local
+learnos.db
+backend/learnos.db
+backend/storage/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Android Gradle local
+android/.gradle/
+android/build/
+android/local.properties
+android/captures/
+android/keystore.properties
+android/keystore/
+*.jks
+*.keystore
+*.jks.p12
+
+# Release binaries
+*.aab
+/releases/

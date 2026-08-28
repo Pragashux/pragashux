@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:vibrant_lms/core/logging/app_logger.dart';
 
 /// Firebase bootstrap. Call [initialize] after adding google-services / GoogleService-Info.
 /// Demo mode skips Firebase so the app runs without project credentials.
@@ -7,14 +9,16 @@ class FirebaseService {
 
   final bool demoMode;
   bool _ready = false;
-  final _logger = Logger();
+  final Logger _logger = createAppLogger();
 
   bool get isReady => _ready;
   bool get isDemoMode => demoMode;
 
   Future<void> initialize() async {
     if (demoMode) {
-      _logger.i('Firebase skipped — running in demo mode');
+      if (!kReleaseMode) {
+        _logger.i('Firebase skipped — running in demo mode');
+      }
       _ready = false;
       return;
     }
@@ -35,11 +39,13 @@ class NotificationService {
   NotificationService({required this.demoMode});
 
   final bool demoMode;
-  final _logger = Logger();
+  final Logger _logger = createAppLogger();
 
   Future<void> initialize() async {
     if (demoMode) {
-      _logger.i('FCM skipped — demo mode');
+      if (!kReleaseMode) {
+        _logger.i('FCM skipped — demo mode');
+      }
       return;
     }
     // await FirebaseMessaging.instance.requestPermission();

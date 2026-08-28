@@ -35,7 +35,46 @@ abstract final class MockData {
     avatarUrl: 'https://i.pravatar.cc/150?u=priya',
   );
 
+  static const instructorAi = InstructorEntity(
+    id: 'inst_ai',
+    name: 'LearnOS Tutor',
+    title: 'AI Course Architect',
+    bio: 'Generates structure, materials, and practice — humans publish.',
+    rating: 4.97,
+    studentsCount: 91000,
+    coursesCount: 48,
+    avatarUrl: 'https://i.pravatar.cc/150?u=ailearnos',
+  );
+
   static List<CourseEntity> courses = [
+    CourseEntity(
+      id: 'c_ux',
+      title: 'UX Design for Beginners',
+      description:
+          'From curiosity to craft: research, flows, and usability with an AI tutor beside you.',
+      category: 'Design',
+      thumbnailUrl: 'https://picsum.photos/seed/uxbegin/800/450',
+      instructor: instructorAi,
+      level: CourseLevel.beginner,
+      rating: 4.91,
+      reviewCount: 2140,
+      studentsCount: 18640,
+      durationHours: 11,
+      lessonsCount: 12,
+      price: 0,
+      isFeatured: true,
+      isPopular: true,
+      isTrending: true,
+      objectives: const [
+        'Explain UX vs UI with confidence',
+        'Run lightweight user research',
+        'Map a flow and test it',
+      ],
+      tags: const ['UX', 'Research', 'Design Thinking'],
+      progress: 0.65,
+      enrollmentStatus: EnrollmentStatus.enrolled,
+      summary: 'AI-authored beginner path with practice in every module.',
+    ),
     CourseEntity(
       id: 'c1',
       title: 'Flutter Mastery: Build Production Apps',
@@ -167,6 +206,153 @@ abstract final class MockData {
   ];
 
   static List<ModuleEntity> modulesFor(String courseId) {
+    if (courseId == 'c_ux') {
+      return [
+        ModuleEntity(
+          id: 'c_ux_m1',
+          title: 'Introduction to UX',
+          order: 1,
+          description: 'Foundations of experience design',
+          lessons: [
+            LessonEntity(
+              id: 'c_ux_l1',
+              moduleId: 'c_ux_m1',
+              title: 'What is UX?',
+              type: LessonType.article,
+              durationMinutes: 9,
+              isCompleted: true,
+              order: 1,
+              contentHtml:
+                  '<h2>What is UX?</h2><p>UX is how a product feels to use over time, not how a screen looks in a screenshot.</p><p>You will use this idea to make better product decisions, not to memorize jargon.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l2',
+              moduleId: 'c_ux_m1',
+              title: 'UX vs UI',
+              type: LessonType.video,
+              durationMinutes: 10,
+              isCompleted: true,
+              isBookmarked: true,
+              order: 2,
+              contentUrl:
+                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+              contentHtml:
+                  '<h2>UX vs UI</h2><p>UI is the surface. UX is the journey, including the parts nobody designed on purpose.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l3',
+              moduleId: 'c_ux_m1',
+              title: 'Design Thinking',
+              type: LessonType.article,
+              durationMinutes: 11,
+              isCompleted: true,
+              order: 3,
+              contentHtml:
+                  '<h2>Design Thinking</h2><p>Empathize, define, ideate, prototype, test — a loop, not a waterfall.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l4',
+              moduleId: 'c_ux_m1',
+              title: 'User Research',
+              type: LessonType.article,
+              durationMinutes: 12,
+              order: 4,
+              contentHtml:
+                  '<h2>User Research</h2><p>Research exists to reduce expensive guesses. Match the question to a method.</p>',
+            ),
+          ],
+        ),
+        ModuleEntity(
+          id: 'c_ux_m2',
+          title: 'User Research',
+          order: 2,
+          lessons: [
+            LessonEntity(
+              id: 'c_ux_l5',
+              moduleId: 'c_ux_m2',
+              title: 'Research Methods',
+              type: LessonType.article,
+              durationMinutes: 12,
+              order: 1,
+              contentHtml:
+                  '<h2>Research Methods</h2><p>Observe, ask, or measure — pick the method that can actually answer your question.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l6',
+              moduleId: 'c_ux_m2',
+              title: 'Interviews',
+              type: LessonType.video,
+              durationMinutes: 14,
+              order: 2,
+              contentUrl:
+                  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+            ),
+            LessonEntity(
+              id: 'c_ux_l7',
+              moduleId: 'c_ux_m2',
+              title: 'Surveys',
+              type: LessonType.article,
+              durationMinutes: 10,
+              order: 3,
+              contentHtml:
+                  '<h2>Surveys</h2><p>Surveys scale opinions; they rarely explain surprising behavior.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l8',
+              moduleId: 'c_ux_m2',
+              title: 'Personas',
+              type: LessonType.article,
+              durationMinutes: 11,
+              order: 4,
+              contentHtml:
+                  '<h2>Personas</h2><p>A persona is a decision tool, not a poster.</p>',
+            ),
+          ],
+        ),
+        ModuleEntity(
+          id: 'c_ux_m3',
+          title: 'Experience Design',
+          order: 3,
+          lessons: [
+            LessonEntity(
+              id: 'c_ux_l9',
+              moduleId: 'c_ux_m3',
+              title: 'User flows',
+              type: LessonType.article,
+              durationMinutes: 12,
+              order: 1,
+              contentHtml: '<h2>User flows</h2><p>If the happy path needs a map, the product is asking too much.</p>',
+            ),
+            LessonEntity(
+              id: 'c_ux_l10',
+              moduleId: 'c_ux_m3',
+              title: 'Wireframes',
+              type: LessonType.article,
+              durationMinutes: 10,
+              order: 2,
+            ),
+            LessonEntity(
+              id: 'c_ux_l11',
+              moduleId: 'c_ux_m3',
+              title: 'Usability testing',
+              type: LessonType.video,
+              durationMinutes: 16,
+              order: 3,
+              contentUrl:
+                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+            ),
+            LessonEntity(
+              id: 'c_ux_l12',
+              moduleId: 'c_ux_m3',
+              title: 'Iteration',
+              type: LessonType.article,
+              durationMinutes: 9,
+              order: 4,
+            ),
+          ],
+        ),
+      ];
+    }
     return [
       ModuleEntity(
         id: '${courseId}_m1',
@@ -357,8 +543,8 @@ abstract final class MockData {
           courseTitle: 'Cloud Fundamentals for Mobile Devs',
           studentName: studentName,
           issuedAt: DateTime.now().subtract(const Duration(days: 21)),
-          credentialId: 'VLMS-C5-2026-88421',
-          shareUrl: 'https://vibrant.lms/certificates/VLMS-C5-2026-88421',
+          credentialId: 'ALOS-CLD-2026-88421',
+          shareUrl: 'https://learnos.app/certificates/ALOS-CLD-2026-88421',
         ),
       ];
 
@@ -429,6 +615,15 @@ abstract final class MockData {
     avgRating: 4.72,
     revenue: 184250,
     newSignupsThisWeek: 312,
+    aiUsage: 12840,
+    atRiskStudents: 186,
+    activeSubscriptions: 4102,
+    failedAssessments: 126,
+    insights: [
+      'Course completion dropped 18% this month. Module 4 has unusually high dropout.',
+      'AI recommends simplifying Module 4 and adding practical examples.',
+      '186 students show dropout-risk signals and need intervention.',
+    ],
   );
 
   static List<String> categories = const [

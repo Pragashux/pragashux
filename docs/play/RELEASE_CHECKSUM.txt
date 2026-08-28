@@ -1,0 +1,7 @@
+SHA-256 (app-release.aab)
+6d7697ca3d65927d4d99db23954fcf484c5e17d136e8e5c3e760bf8a27ed8396
+
+Path: build/app/outputs/bundle/release/app-release.aab
+Size: 60M
+Built: 2026-08-28
+Note: Rebuilds produce a new checksum. Recalculate after any new bundleRelease.
