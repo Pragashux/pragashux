@@ -56,7 +56,11 @@ backend/storage/
 __pycache__/
 *.pyc
 
-# Android release signing (never commit)
+# Android Gradle local
+android/.gradle/
+android/build/
+android/local.properties
+android/captures/
 android/keystore.properties
 android/keystore/
 *.jks
